@@ -1,112 +1,118 @@
 import React from 'react';
 
-import { Container, Row, Col } from 'react-bootstrap';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
-const Footer = () => {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import footerStyles from './footer.module.scss';
+
+const Footer = ({ organizer }) => {
   return (
-    <footer className="footer">
+    <footer className={footerStyles.footer}>
       <Container>
         <Row className="justify-content-sm-center">
           <Col md={4} className="organizer-logo">
-            {/* {organizer.webSite ? (
+            {organizer.webSite ? (
               <a
+                className={footerStyles.link}
                 target="_blank"
                 rel="noopener noreferrer"
                 href={`http://${organizer.webSite}`}
               >
                 <img
+                  className={footerStyles.logo}
                   fluid="true"
-                  src={organizer.logo ? organizer.logo.url : null}
+                  src={organizer.logo.url}
                   alt={`logo ${organizer.name}`}
                 />
               </a>
             ) : (
               <img
+                className={footerStyles.logo}
                 fluid="true"
-                src={organizer.logo ? organizer.logo.url : null}
+                src={organizer.logo.url}
                 alt={`logo ${organizer.name}`}
               />
-            )} */}
+            )}
           </Col>
           <Col md={8}>
             <Row className="justify-content-sm-center">
               <Col md={6}>
                 <address>
                   <p>
-                    {/* <a
+                    <a
+                      className={footerStyles.link}
                       target="_blank"
                       rel="noopener noreferrer"
                       href={`http://${organizer.webSite}`}
                     >
                       <strong>{organizer.name}</strong>
-                    </a> */}
+                    </a>
                   </p>
 
-                  {/* <div className="address">
-                    <FontAwesomeIcon icon="map-marker-alt" />
+                  <div className={footerStyles.address}>
+                    <FontAwesomeIcon
+                      icon="map-marker-alt"
+                      className={footerStyles.icon}
+                    />
                     <p>
                       {organizer.address}
                       <br />
                       {`${organizer.postalCode} ${organizer.city}`}
                     </p>
-                  </div> */}
+                  </div>
                 </address>
               </Col>
               <Col md={6}>
                 <address>
-                  {/* <div className="address">
-                    <FontAwesomeIcon icon="at" />
+                  <div className={footerStyles.address}>
+                    <FontAwesomeIcon icon="at" className={footerStyles.icon} />
                     <p>
                       e-mail:{' '}
                       <a
-                        href={`mailto:${
-                          organizer.eMail ? organizer.eMail[0] : null
-                        }`}
+                        className={footerStyles.link}
+                        href={`mailto:${organizer.eMail[0]}`}
                       >
-                        {organizer.eMail ? organizer.eMail[0] : null}
+                        {organizer.eMail[0]}
                       </a>
                     </p>
-                  </div> */}
-                  {/* {organizer.phone
-                    ? organizer.phone.map((item) => (
-                        <div
-                          key={organizer.phone.indexOf(item)}
-                          className="address"
-                        >
-                          <FontAwesomeIcon icon="phone" />
-                          <p>
-                            tel:{' '}
-                            <a href={`tel:${item.replace(/\s+/g, '')}`}>
-                              {item}
-                            </a>
-                          </p>
-                        </div>
-                      ))
-                    : null} */}
-                  {/* {organizer.fax
-                    ? organizer.fax.map((item) => (
-                        <div
-                          key={organizer.fax.indexOf(item)}
-                          className="address"
-                        >
-                          <FontAwesomeIcon icon="fax" />
-                          <p>
-                            fax:{' '}
-                            <a href={`tel:${item.replace(/\s+/g, '')}`}>
-                              {item}
-                            </a>
-                          </p>
-                        </div>
-                      ))
-                    : null} */}
+                  </div>
+                  <div className={footerStyles.address}>
+                    <FontAwesomeIcon
+                      icon="phone"
+                      className={footerStyles.icon}
+                    />
+                    <p>
+                      tel:{' '}
+                      <a
+                        className={footerStyles.link}
+                        href={`tel:${organizer.phone[0].replace(/\s+/g, '')}`}
+                      >
+                        {organizer.phone[0]}
+                      </a>
+                    </p>
+                  </div>
+                  <div className={footerStyles.address}>
+                    <FontAwesomeIcon icon="fax" className={footerStyles.icon} />
+                    <p>
+                      fax:{' '}
+                      <a
+                        className={footerStyles.link}
+                        href={`tel:${organizer.fax[0].replace(/\s+/g, '')}`}
+                      >
+                        {organizer.fax[0]}
+                      </a>
+                    </p>
+                  </div>
                 </address>
               </Col>
             </Row>
           </Col>
         </Row>
-        <hr />
-        {/* <p>© 2018 {organizer.shortName}</p> */}
-        <p>© 2018 KSOIN</p>
+        <hr className={footerStyles.hr} />
+        <p>© 2018 {organizer.shortName}</p>
       </Container>
     </footer>
   );

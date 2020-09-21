@@ -1,19 +1,69 @@
 import React from 'react';
+import { graphql, useStaticQuery } from 'gatsby';
 
-import Container from 'react-bootstrap/Container';
-import Jumbotron from 'react-bootstrap/Jumbotron';
-import Layout from '../Components/layout';
+import Hero from '../Components/hero/hero';
+import Layout from '../templates/homeTemplate';
 
-const Home = () => {
+import { CURRENT_EVENT, MAIN_ORGANIZER } from '../Constans';
+
+const IndexPage = () => {
+  const data = useStaticQuery(
+    graphql`
+      query {
+        graphcms {
+          events {
+            eventName
+            eventFullName
+            eventType
+            genitiveEventType
+            locativeEventType
+            eventStartDate
+            eventEndDate
+            singleRoomPrice
+            doubleRoomPrice
+            cite
+            citeAuthor
+            eventLocation {
+              name
+              address
+              postalCode
+              city
+              webSite
+              googleMapsCode
+            }
+            organizers {
+              id
+              name
+              shortName
+              organizerType
+              logo {
+                url
+              }
+              webSite
+              eMail
+              address
+              postalCode
+              city
+              phone
+              fax
+              bankName
+              bankAccount
+              nip
+              regon
+            }
+          }
+        }
+      }
+    `
+  );
+  const currentEvent = data.graphcms.events.find(
+    (event) => event.eventName.toLowerCase() === CURRENT_EVENT.toLowerCase()
+  );
   return (
-    <Layout>
-      <Jumbotron fluid>
-        <Container>
-          <h1>To jest Strona startowa</h1>
-        </Container>
-      </Jumbotron>
+    <Layout slug="">
+      <Hero currentEvent={currentEvent} />
     </Layout>
   );
 };
 
-export default Home;
+export default IndexPage;
