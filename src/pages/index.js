@@ -1,10 +1,10 @@
 import React from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 
-import Hero from '../Components/hero/hero';
+import Hero from '../Components/hero';
 import Layout from '../templates/homeTemplate';
 
-import { CURRENT_EVENT, MAIN_ORGANIZER } from '../Constans';
+import { CURRENT_EVENT } from '../Constans';
 
 const IndexPage = () => {
   const data = useStaticQuery(
@@ -60,7 +60,8 @@ const IndexPage = () => {
     (event) => event.eventName.toLowerCase() === CURRENT_EVENT.toLowerCase()
   );
   return (
-    <Layout slug="">
+    // eslint-disable-next-line prettier/prettier
+    <Layout slug=''>
       <Hero currentEvent={currentEvent} />
     </Layout>
   );

@@ -16,3 +16,17 @@ export const PATRONS_ROLE_PRIORITY = [
 ];
 export const TYPE_CONGRESS = 'Kongress';
 export const TYPE_CONFERENCE = 'Konferencja';
+export const POLISH_MONTHS = [
+  'styczeń',
+  'luty',
+  'marzec',
+  'kwieceń',
+  'maj',
+  'czerwiec',
+  'lipiec',
+  'sierpień',
+  'wrzesień',
+  'październik',
+  'listopad',
+  'grudzień',
+];

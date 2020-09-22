@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Unica+One&display=swap');
+.jumbo {
+  background: url(../assets/top-kbn-bg.jpg) top no-repeat;
+}
+
+.cite {
+  color: #fff;
+  font-weight: lighter;
+  font-size: 1.2rem;
+  font-style: italic;
+  margin-bottom: 2rem;
+}
+
+.author {
+  font-size: 1rem;
+  font-style: normal;
+}
+
+.title {
+  font-family: 'Unica One', serif;
+  margin-bottom: 2rem;
+  text-shadow: 0 0 0.125rem #000;
+  color: #fff;
+}
+.title::before {
+  display: none;
+}
+
+.location,
+.date {
+  color: #fff;
+  text-shadow: 0 0 0.125rem #000;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.location {
+  margin-bottom: 0;
+}
+
+.callToAction {
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
