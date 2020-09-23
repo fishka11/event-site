@@ -66,7 +66,7 @@ class Counter extends Component {
                 </span>
               )}{' '}
               {(days > 0 || hours > 0) && (
-                <span className='hours-left'>
+                <span className="hours-left">
                   <span className={counterStyles.digit}>
                     {hours.toString().padStart(2, '0')}
                   </span>
@@ -74,14 +74,14 @@ class Counter extends Component {
                 </span>
               )}{' '}
               {(days > 0 || hours > 0 || mins > 0) && (
-                <span className='mins-left'>
+                <span className="mins-left">
                   <span className={counterStyles.digit}>
                     {mins.toString().padStart(2, '0')}
                   </span>
                   min
                 </span>
               )}{' '}
-              <span className='secs-left'>
+              <span className="secs-left">
                 <span className={counterStyles.digit}>
                   {secs.toString().padStart(2, '0')}
                 </span>

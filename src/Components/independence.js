@@ -5,15 +5,21 @@ import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
+import independenceStyles from './independence.module.scss';
+
 const Independence = () => {
   return (
-    <Row className='independance justify-content-sm-center align-items-center'>
-      <Col xs='12'>
+    <Row className={independenceStyles.container}>
+      <Col xs="12">
         {/* <Img fixed={data.file.fixed} /> */}
-        <img src='./logo_pl_alternatywny.png' alt='logo Niepodległa' />
+        <img
+          className={independenceStyles.logo}
+          src="./logo_pl_alternatywny.png"
+          alt="logo Niepodległa"
+        />
       </Col>
-      <Col xs='12'>
-        <p>
+      <Col xs="12">
+        <p className={independenceStyles.text}>
           Projekt realizowany w ramach obchodów stulecia odzyskania
           niepodległości oraz odbudowy polskiej państwowości
         </p>

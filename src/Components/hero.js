@@ -17,13 +17,12 @@ const Hero = ({ currentEvent }) => {
   const multilineTitle = currentEvent.eventFullName.split('\n');
   const eventStartDate = new Date(currentEvent.eventStartDate);
   const eventEndDate = new Date(currentEvent.eventEndDate);
-  console.log(currentEvent);
   return (
     <section>
       <Jumbotron fluid className={heroStyles.jumbo}>
         <Container>
           <Row>
-            <Col lg={6}>
+            <Col lg={7}>
               <div>
                 {currentEvent.cite ? (
                   <p className={heroStyles.cite}>
@@ -43,7 +42,7 @@ const Hero = ({ currentEvent }) => {
                     key={multilineTitle.indexOf(item)}
                     className={
                       multilineTitle.indexOf(item) === 0
-                        ? 'd-block display-3'
+                        ? 'd-block display-2'
                         : 'd-block display-5'
                     }
                   >
@@ -54,7 +53,7 @@ const Hero = ({ currentEvent }) => {
               <div>
                 <Link
                   className={`btn btn-danger btn-lg ${heroStyles.callToAction}`}
-                  to='/rejestracja'
+                  to="/rejestracja"
                 >
                   Zarejestruj się
                 </Link>
@@ -76,7 +75,61 @@ const Hero = ({ currentEvent }) => {
               <Counter eventStartDate={eventStartDate} />
               <Independence />
             </Col>
-            <Col lg={6}>druga kolumna</Col>
+            <Col className={heroStyles.features} lg={5}>
+              <p className={heroStyles.featureHeader}>Debata:</p>
+              <h4>
+                Bezpieczeństwo epidemiologiczne. Świat i Polska w czasach
+                pandemii, życie na nowo?
+              </h4>
+              <p>z udziałem:</p>
+              <dl>
+                <dt>prof. dr hab. Agnieszka Dobrzyń</dt>
+                <dd className={heroStyles.speakerDescription}>
+                  Kierownik Projektu SONAR Anty-CoronaVirus, Dyrektor Instytutu
+                  Biologii Doświadczalnej im. M. Nenckiego PAN, kierownik
+                  Pracowni Sygnałów Komórkowych i Zaburzeń Metabolicznych.
+                </dd>
+                <dt>prof. dr hab. n. med. Robert Flisiak</dt>
+                <dd className={heroStyles.speakerDescription}>
+                  Kierownik Kliniki Chorób Zakaźnych i Hepatologii Uniwersytetu
+                  Medycznego w Białymstoku. Prezes Polskiego Towarzystwa
+                  Epidemiologów i Lekarzy Chorób Zakaźnych.
+                </dd>
+                <dt>dr hab. n. med. Jarosław Pinkas</dt>
+                <dd className={heroStyles.speakerDescription}>
+                  Główny Inspektor Sanitarny, konsultant krajowy w dziedzinie
+                  zdrowia publicznego.
+                </dd>
+                <dt>Marek Posobkiewicz</dt>
+                <dd className={heroStyles.speakerDescription}>
+                  b. Główny Inspektor Sanitarny.
+                </dd>
+                <dt>prof. dr hab. n. med. Krzysztof Simon</dt>
+                <dd className={heroStyles.speakerDescription}>
+                  Kierownik Kliniki Chorób Zakaźnych i Hepatologii Uniwersytetu
+                  Medycznego we Wrocławiu. Ordynator 1. Oddziału Chorób
+                  Zakaźnych w Wojewódzkim Szpitalu Specjalistycznym we
+                  Wrocławiu.
+                </dd>
+                <dt>dr n. med. Andrzej Sośnierz</dt>
+                <dd className={heroStyles.speakerDescription}>
+                  Poseł, b. prezes Narodowego Funduszu Zdrowia.
+                </dd>
+              </dl>
+              <p className={heroStyles.featureHeader}>Atrakcja wieczoru:</p>
+              <Row>
+                <Col xs={4}>
+                  <img
+                    src="./dominika-zamara.jpg"
+                    alt="Dominika Zamara"
+                    height="160"
+                  />
+                </Col>
+                <Col xs={8}>
+                  <h4>Występ znanej śpiewaczki operowej Dominiki Zamary</h4>
+                </Col>
+              </Row>
+            </Col>
           </Row>
         </Container>
       </Jumbotron>
