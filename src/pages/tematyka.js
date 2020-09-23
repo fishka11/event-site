@@ -1,5 +1,7 @@
 import React from 'react';
-import { graphql, useStaticQuery } from 'gatsby';
+import { Link, graphql, useStaticQuery } from 'gatsby';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -33,26 +35,45 @@ const Agenda = () => {
       <Container>
         <h1>Tematyka i Program</h1>
         <section>
-          {agenda.map((title) => (
-            <Row
-              key={agenda.indexOf(title)}
-              className={tematykaStyles.agendaItem}
-            >
-              <Col xs={2} sm={1}>
-                <div>
-                  <img
-                    className={tematykaStyles.pointer}
-                    fluid="true"
-                    src={pointer}
-                    alt="pointer"
-                  />
-                </div>
-              </Col>
-              <Col xs={10} sm={11} className={tematykaStyles.agendaItemTitle}>
-                <h3>{title}</h3>
-              </Col>
-            </Row>
-          ))}
+          <Row>
+            <Col md={8} lg={9}>
+              {agenda.map((title) => (
+                <Row
+                  key={agenda.indexOf(title)}
+                  className={tematykaStyles.agendaItem}
+                >
+                  <Col xs={2} sm={1}>
+                    <div>
+                      <img
+                        className={tematykaStyles.pointer}
+                        fluid="true"
+                        src={pointer}
+                        alt="pointer"
+                      />
+                    </div>
+                  </Col>
+                  <Col
+                    xs={10}
+                    sm={11}
+                    className={tematykaStyles.agendaItemTitle}
+                  >
+                    <h3>{title}</h3>
+                  </Col>
+                </Row>
+              ))}
+            </Col>
+            <Col md={4} lg={3}>
+              <h4 className={tematykaStyles.header4}>
+                Szczegółowy program Konferncji do pobrania
+              </h4>
+              <Link to="/plan-kbn-rynia-2020.pdf">
+                <FontAwesomeIcon
+                  icon="file-pdf"
+                  className={tematykaStyles.icon}
+                />
+              </Link>
+            </Col>
+          </Row>
         </section>
       </Container>
     </Layout>

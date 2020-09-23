@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import GoogleMap from '../Components/embeddedGoogleMap';
+import GoogleMap from '../components/embeddedGoogleMap';
 
 import Layout from '../templates/siteTemplate';
 import { CURRENT_EVENT, MAIN_ORGANIZER, TYPE_CONFERENCE } from '../Constans';

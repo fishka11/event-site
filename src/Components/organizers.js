@@ -9,15 +9,15 @@ import organizersStyles from './organizers.module.scss';
 const Organizers = ({ organizers }) => {
   const columns = Math.floor(12 / organizers.length);
   return (
-    <section className="organizers">
+    <section className={organizersStyles.container}>
       <Container>
-        <h4 className="section-title text-center">
+        <h4 className={organizersStyles.sectionTitle}>
           {organizers.length === 1 ? 'Organizator' : 'Organizatorzy'}
         </h4>
         <Row className="justify-content-sm-center">
-          {organizers.map((item) => (
+          {organizers.map((organizer) => (
             <Col
-              key={item.id}
+              key={organizer.id}
               className="text-center"
               xs={12}
               sm={columns >= 6 ? columns : 6}
@@ -25,29 +25,31 @@ const Organizers = ({ organizers }) => {
               lg={columns >= 3 ? columns : 3}
               xl={columns >= 2 ? columns : 2}
             >
-              <div className="organizer-logo">
-                {item.webSite ? (
+              <div className={organizersStyles.logoContainer}>
+                {organizer.webSite ? (
                   <a
                     target="_blank"
                     rel="noopener noreferrer"
-                    href={`http://${item.webSite}`}
+                    href={`http://${organizer.webSite}`}
                   >
                     <img
+                      className={organizersStyles.logo}
                       fluid="true"
-                      src={item.logo.url}
-                      alt={`logo ${item.name}`}
+                      src={organizer.logo.url}
+                      alt={`logo ${organizer.name}`}
                     />
                   </a>
                 ) : (
                   <img
+                    className={organizersStyles.logo}
                     fluid="true"
-                    src={item.logo.url}
-                    alt={`logo ${item.name}`}
+                    src={organizer.logo.url}
+                    alt={`logo ${organizer.name}`}
                   />
                 )}
               </div>
               <div className="organizer-name">
-                <p>{item.name}</p>
+                <p>{organizer.name}</p>
               </div>
             </Col>
           ))}

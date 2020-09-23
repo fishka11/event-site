@@ -8,9 +8,10 @@ import {
   faFax,
   faGlobe,
 } from '@fortawesome/free-solid-svg-icons';
-import Header from '../Components/header';
-import Footer from '../Components/footer';
-import SEO from '../Components/seo';
+import CookieConsent from 'react-cookie-consent';
+import Header from '../components/header';
+import Footer from '../components/footer';
+import SEO from '../components/seo';
 import { CURRENT_EVENT, MAIN_ORGANIZER, HELPER_ORGANIZER } from '../Constans';
 
 import '../styles/layout.scss';
@@ -91,6 +92,35 @@ const Layout = ({ children, slug }) => {
         <div className={layoutStyles.content}>{children}</div>
       </div>
       <Footer organizer={organizer} />
+      <CookieConsent
+        location="bottom"
+        buttonText="OK, rozumiem"
+        cookieName="cookiesBar"
+        style={{ background: '#333', color: '#ddd' }}
+        buttonStyle={{
+          color: '#ffffff',
+          background: '#ca1818',
+          fontSize: '0.8rem',
+          fontWeight: 'bold',
+        }}
+        expires={150}
+      >
+        Nasza strona internetowa używa plików cookies (tzw. ciasteczka) w celach
+        statystycznych, reklamowych oraz funkcjonalnych. Każdy może zaakceptować
+        pliki cookies albo ma możliwość wyłączenia ich w przeglądarce.{' '}
+        <a
+          aria-label="dowiedz się więcej o ciasteczkach"
+          role="button"
+          rel="noopener noreferrer"
+          tabIndex="0"
+          className="cc-link"
+          href="http://wszystkoociasteczkach.pl/"
+          target="_blank"
+          style={{ color: '#ca1818' }}
+        >
+          Dowiedz się więcej.
+        </a>
+      </CookieConsent>
     </div>
   );
 };

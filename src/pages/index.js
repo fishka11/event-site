@@ -1,10 +1,13 @@
 import React from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 
-import Hero from '../Components/hero';
+import Hero from '../components/hero';
 import Layout from '../templates/homeTemplate';
 
 import { CURRENT_EVENT } from '../Constans';
+import Organizers from '../components/organizers';
+import KOINIntro from '../components/koinIntro';
+import KBNIntro from '../components/kbnIntro';
 
 const IndexPage = () => {
   const data = useStaticQuery(
@@ -23,6 +26,9 @@ const IndexPage = () => {
             doubleRoomPrice
             cite
             citeAuthor
+            picturesStrap {
+              url
+            }
             eventLocation {
               name
               address
@@ -59,10 +65,23 @@ const IndexPage = () => {
   const currentEvent = data.graphcms.events.find(
     (event) => event.eventName.toLowerCase() === CURRENT_EVENT.toLowerCase()
   );
+  const eventSwitch = () => {
+    switch (currentEvent.eventName.toLowerCase()) {
+      case 'koin':
+        return <KOINIntro pictures={currentEvent.picturesStrap} />;
+      case 'kbn':
+        return <KBNIntro pictures={currentEvent.picturesStrap} />;
+      default:
+        return null;
+    }
+  };
+  console.log(currentEvent);
   return (
     // eslint-disable-next-line prettier/prettier
     <Layout slug=''>
       <Hero currentEvent={currentEvent} />
+      <Organizers organizers={currentEvent.organizers} />
+      {eventSwitch()}
     </Layout>
   );
 };

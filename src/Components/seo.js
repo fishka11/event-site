@@ -9,7 +9,6 @@ const SEO = ({ metaData, slug }) => {
     <Helmet>
       <title>{meta.title}</title>
       <meta name="description" content={meta.description} />
-      <link rel="canonical" href={`${window.location.origin}/${slug}`} />
       <html lang="pl" />
     </Helmet>
   );

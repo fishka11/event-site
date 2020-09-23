@@ -76,59 +76,63 @@ const Hero = ({ currentEvent }) => {
               <Independence />
             </Col>
             <Col className={heroStyles.features} lg={5}>
-              <p className={heroStyles.featureHeader}>Debata:</p>
-              <h4>
-                Bezpieczeństwo epidemiologiczne. Świat i Polska w czasach
-                pandemii, życie na nowo?
-              </h4>
-              <p>z udziałem:</p>
-              <dl>
-                <dt>prof. dr hab. Agnieszka Dobrzyń</dt>
-                <dd className={heroStyles.speakerDescription}>
-                  Kierownik Projektu SONAR Anty-CoronaVirus, Dyrektor Instytutu
-                  Biologii Doświadczalnej im. M. Nenckiego PAN, kierownik
-                  Pracowni Sygnałów Komórkowych i Zaburzeń Metabolicznych.
-                </dd>
-                <dt>prof. dr hab. n. med. Robert Flisiak</dt>
-                <dd className={heroStyles.speakerDescription}>
-                  Kierownik Kliniki Chorób Zakaźnych i Hepatologii Uniwersytetu
-                  Medycznego w Białymstoku. Prezes Polskiego Towarzystwa
-                  Epidemiologów i Lekarzy Chorób Zakaźnych.
-                </dd>
-                <dt>dr hab. n. med. Jarosław Pinkas</dt>
-                <dd className={heroStyles.speakerDescription}>
-                  Główny Inspektor Sanitarny, konsultant krajowy w dziedzinie
-                  zdrowia publicznego.
-                </dd>
-                <dt>Marek Posobkiewicz</dt>
-                <dd className={heroStyles.speakerDescription}>
-                  b. Główny Inspektor Sanitarny.
-                </dd>
-                <dt>prof. dr hab. n. med. Krzysztof Simon</dt>
-                <dd className={heroStyles.speakerDescription}>
-                  Kierownik Kliniki Chorób Zakaźnych i Hepatologii Uniwersytetu
-                  Medycznego we Wrocławiu. Ordynator 1. Oddziału Chorób
-                  Zakaźnych w Wojewódzkim Szpitalu Specjalistycznym we
-                  Wrocławiu.
-                </dd>
-                <dt>dr n. med. Andrzej Sośnierz</dt>
-                <dd className={heroStyles.speakerDescription}>
-                  Poseł, b. prezes Narodowego Funduszu Zdrowia.
-                </dd>
-              </dl>
-              <p className={heroStyles.featureHeader}>Atrakcja wieczoru:</p>
-              <Row>
-                <Col xs={4}>
-                  <img
-                    src="./dominika-zamara.jpg"
-                    alt="Dominika Zamara"
-                    height="160"
-                  />
-                </Col>
-                <Col xs={8}>
-                  <h4>Występ znanej śpiewaczki operowej Dominiki Zamary</h4>
-                </Col>
-              </Row>
+              <div className={heroStyles.featuresContainer}>
+                <p className={heroStyles.featureHeader}>Debata:</p>
+                <h4>
+                  Bezpieczeństwo epidemiologiczne. Świat i Polska w czasach
+                  pandemii, życie na nowo?
+                </h4>
+                <p>z udziałem:</p>
+                <dl>
+                  <dt>prof. dr hab. Agnieszka Dobrzyń</dt>
+                  <dd className={heroStyles.speakerDescription}>
+                    Kierownik Projektu SONAR Anty-CoronaVirus, Dyrektor
+                    Instytutu Biologii Doświadczalnej PAN.
+                  </dd>
+                  <dt>prof. dr hab. n. med. Robert Flisiak</dt>
+                  <dd className={heroStyles.speakerDescription}>
+                    Kierownik Kliniki Chorób Zakaźnych i Hepatologii
+                    Uniwersytetu Medycznego w Białymstoku.
+                  </dd>
+                  <dt>dr hab. n. med. Jarosław Pinkas</dt>
+                  <dd className={heroStyles.speakerDescription}>
+                    Główny Inspektor Sanitarny, konsultant krajowy w dziedzinie
+                    zdrowia publicznego.
+                  </dd>
+                  <dt>Marek Posobkiewicz</dt>
+                  <dd className={heroStyles.speakerDescription}>
+                    b. Główny Inspektor Sanitarny.
+                  </dd>
+                  <dt>prof. dr hab. n. med. Krzysztof Simon</dt>
+                  <dd className={heroStyles.speakerDescription}>
+                    Kierownik Kliniki Chorób Zakaźnych i Hepatologii
+                    Uniwersytetu Medycznego we Wrocławiu.
+                  </dd>
+                  <dt>dr n. med. Andrzej Sośnierz</dt>
+                  <dd className={heroStyles.speakerDescription}>
+                    Poseł, b. prezes Narodowego Funduszu Zdrowia.
+                  </dd>
+                  <dt>Beata Drzazga</dt>
+                  <dd className={heroStyles.speakerDescription}>
+                    Prezes BetaMed S.A., właścicielka największej firmy
+                    medycznej w Polsce świadczącej usługi pielęgniarskie w domu
+                    pacjenta.
+                  </dd>
+                </dl>
+                <p className={heroStyles.featureHeader}>Atrakcja wieczoru:</p>
+                <Row>
+                  <Col xs={6}>
+                    <img
+                      src="./dominika-zamara.jpg"
+                      alt="Dominika Zamara"
+                      height="160"
+                    />
+                  </Col>
+                  <Col xs={6}>
+                    <h4>Występ znanej śpiewaczki operowej Dominiki Zamary</h4>
+                  </Col>
+                </Row>
+              </div>
             </Col>
           </Row>
         </Container>
