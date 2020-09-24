@@ -75,10 +75,9 @@ const IndexPage = () => {
         return null;
     }
   };
-  console.log(currentEvent);
   return (
     // eslint-disable-next-line prettier/prettier
-    <Layout slug=''>
+    <Layout slug="">
       <Hero currentEvent={currentEvent} />
       <Organizers organizers={currentEvent.organizers} />
       {eventSwitch()}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { graphql, useStaticQuery } from 'gatsby';
+import { graphql, useStaticQuery, Link } from 'gatsby';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -10,7 +10,7 @@ import GoogleMap from '../components/embeddedGoogleMap';
 
 import Layout from '../templates/siteTemplate';
 import pointer from '../assets/agenda-pointer.png';
-import { CURRENT_EVENT, MAIN_ORGANIZER } from '../Constans';
+import { CURRENT_EVENT, MAIN_ORGANIZER, HELPER_ORGANIZER } from '../Constans';
 
 import infoStyles from './info.module.scss';
 
@@ -74,7 +74,10 @@ const Info = () => {
   const eventStartDate = new Date(currentEvent.eventStartDate);
   const eventEndDate = new Date(currentEvent.eventEndDate);
   const eventDuration = eventEndDate.getDate() - eventStartDate.getDate();
-
+  const helperOrganizer = currentEvent.organizers.find(
+    (organizer) =>
+      organizer.organizerType.toLowerCase() === HELPER_ORGANIZER.toLowerCase()
+  );
   const mainOrganizer = currentEvent.organizers.find(
     (organizer) =>
       organizer.organizerType.toLowerCase() === MAIN_ORGANIZER.toLowerCase()
@@ -223,6 +226,64 @@ const Info = () => {
                   {mainOrganizer.address}, NIP: {mainOrganizer.nip}, REGON{' '}
                   {mainOrganizer.regon}, e-mail: {email}, tel. {phone}, fax{' '}
                   {fax}.
+                </li>
+                <li>
+                  Przebieg wydarzenia może zostać utrwalony za pomocą urządzeń
+                  rejestrujących obraz i dźwięk.
+                </li>
+                <li>
+                  Zgłoszenie uczestnictwa jest równoznaczne z wyrażeniem zgody
+                  na publikację wizerunku bądź wypowiedzi utrwalonych podczas
+                  wydarzenia, stosownie do art. 81 ust. 1 ustawy z dnia 4 lutego
+                  1994 r. o prawie autorskim i prawach pokrewnych (Dz. U. z 2019
+                  r. poz.1231, z późn. zm.) i na wykorzystanie ich w materiałach
+                  go promujących, w tym publikowanych w postaci zdjęć lub filmów
+                  na <Link to="/">stronie internetowej wydarzenia</Link>,
+                  stronach{' '}
+                  {helperOrganizer ? (
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={`https://${helperOrganizer.webSite}/`}
+                    >
+                      {`${helperOrganizer.webSite}, `}
+                    </a>
+                  ) : null}
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={`https://${mainOrganizer.webSite}/`}
+                  >
+                    {mainOrganizer.webSite}
+                  </a>
+                  , kanale youtube, mediach społecznościowych: facebook,
+                  twitter, linkedin, a także w materiałach promocyjnych
+                  Organizatorów związanych z wydarzeniem, z poszanowaniem
+                  obowiązujących przepisów i bez dodatkowego wynagrodzenia.
+                </li>
+                <li>
+                  Zgoda na wykorzystanie wizerunku i wypowiedzi może zostać w
+                  każdym czasie odwołana, pod adresem:{' '}
+                  <a href={`mailto:${email}`}>{email}</a> z zastrzeżeniem, że
+                  cofnięcie zgody nie obejmuje materiałów promocyjnych
+                  wyemitowanych przed dniem jej cofnięcia.
+                </li>
+                <li>
+                  W oparciu o art. 81 ust. 2 ustawy z dnia 4 lutego 1994 r. o
+                  prawie autorskim i prawach pokrewnych (Dz. U. z 2019 r. poz.
+                  1231, zm. Dz. U. z 2019 r. poz. 2245) zezwolenia nie wymaga
+                  rozpowszechnianie wizerunku:
+                  <ul>
+                    <li>
+                      osoby powszechnie znanej, jeżeli wizerunek wykonano w
+                      związku z pełnieniem przez nią funkcji publicznych, w
+                      szczególności politycznych, społecznych, zawodowych;
+                    </li>
+                    <li>
+                      osoby stanowiącej jedynie szczegół całości takiej jak
+                      zgromadzenie, krajobraz, publiczna impreza.
+                    </li>
+                  </ul>
                 </li>
               </ol>
             </Col>
