@@ -1,4 +1,4 @@
-@import "../styles/kbn.scss";
+@import '../styles/kbn.scss';
 
 .navbar {
   padding: 0;
@@ -13,7 +13,7 @@
 
 .navLink::before {
   position: absolute;
-  content: "";
+  content: '';
   display: block;
   height: 1px;
   width: 0;
@@ -24,7 +24,7 @@
 }
 
 .navLink:hover::before,
-.navLink:active::before {
+.navLink.active::before {
   width: calc(100% - 1rem);
 }
 
