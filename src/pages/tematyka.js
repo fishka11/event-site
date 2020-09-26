@@ -9,7 +9,7 @@ import Col from 'react-bootstrap/Col';
 
 import Layout from '../templates/siteTemplate';
 import pointer from '../assets/agenda-pointer.png';
-import { CURRENT_EVENT } from '../Constans';
+import { CURRENT_EVENT } from '../constans';
 
 import tematykaStyles from './tematyka.module.scss';
 

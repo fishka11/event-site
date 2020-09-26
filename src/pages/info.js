@@ -8,9 +8,9 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import GoogleMap from '../components/embeddedGoogleMap';
 
-import Layout from '../templates/siteTemplate';
+import SiteTemplate from '../templates/siteTemplate';
 import pointer from '../assets/agenda-pointer.png';
-import { CURRENT_EVENT, MAIN_ORGANIZER, HELPER_ORGANIZER } from '../Constans';
+import { CURRENT_EVENT, MAIN_ORGANIZER, HELPER_ORGANIZER } from '../constans';
 
 import infoStyles from './info.module.scss';
 
@@ -98,7 +98,7 @@ const Info = () => {
   };
 
   return (
-    <Layout slug="info">
+    <SiteTemplate slug="info">
       <Container>
         <h1>Informacje organizacyjne</h1>
         <section className={infoStyles.section}>
@@ -322,7 +322,7 @@ const Info = () => {
           <GoogleMap location={location} title={currentEvent.name} />
         </section>
       </Container>
-    </Layout>
+    </SiteTemplate>
   );
 };
 

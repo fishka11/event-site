@@ -2,9 +2,9 @@ import React from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 
 import Hero from '../components/hero';
-import Layout from '../templates/homeTemplate';
+import HomeTemplate from '../templates/homeTemplate';
 
-import { CURRENT_EVENT } from '../Constans';
+import { CURRENT_EVENT } from '../constans';
 import Organizers from '../components/organizers';
 import KOINIntro from '../components/koinIntro';
 import KBNIntro from '../components/kbnIntro';
@@ -77,11 +77,11 @@ const IndexPage = () => {
   };
   return (
     // eslint-disable-next-line prettier/prettier
-    <Layout slug="">
+    <HomeTemplate slug="">
       <Hero currentEvent={currentEvent} />
       <Organizers organizers={currentEvent.organizers} />
       {eventSwitch()}
-    </Layout>
+    </HomeTemplate>
   );
 };
 

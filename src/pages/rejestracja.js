@@ -4,7 +4,7 @@ import { graphql, useStaticQuery } from 'gatsby';
 import Container from 'react-bootstrap/Container';
 import Layout from '../templates/siteTemplate';
 
-import { CURRENT_EVENT } from '../Constans';
+import { CURRENT_EVENT } from '../constans';
 
 const Register = () => {
   const data = useStaticQuery(
