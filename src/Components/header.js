@@ -38,7 +38,7 @@ const Header = ({ brand, eventFullName, menuItems }) => {
                     <Link
                       to={`/${item.path}`}
                       className={`nav-link ${headerStyles.navLink}`}
-                      activeClassName="active"
+                      activeClassName={headerStyles.navLinkActive}
                     >
                       {item.displayName}
                     </Link>

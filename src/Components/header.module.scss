@@ -24,8 +24,12 @@
 }
 
 .navLink:hover::before,
-.navLink.active::before {
+.navLinkActive::before {
   width: calc(100% - 1rem);
+}
+
+.navLink.active {
+  color: greenyellow;
 }
 
 .navLink {
