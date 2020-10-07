@@ -82,7 +82,11 @@ const Hero = ({ currentEvent }) => {
                   Bezpieczeństwo epidemiologiczne. Świat i Polska w czasach
                   pandemii, życie na nowo?
                 </h4>
-                <p>z udziałem:</p>
+                <p>
+                  Moderator:{' '}
+                  <span className={heroStyles.speaker}>red. Anita Czupryn</span>{' '}
+                  <br />z udziałem:
+                </p>
                 <dl>
                   <dt>prof. dr hab. Agnieszka Dobrzyń</dt>
                   <dd className={heroStyles.speakerDescription}>
