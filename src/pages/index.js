@@ -27,6 +27,7 @@ const IndexPage = () => {
             cite
             citeAuthor
             picturesStrap {
+              id
               url
             }
             eventLocation {
