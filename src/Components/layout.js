@@ -7,6 +7,7 @@ import {
   faPhone,
   faFax,
   faGlobe,
+  faFilePdf,
 } from '@fortawesome/free-solid-svg-icons';
 import Cookies from './cookies';
 import Header from './header';
@@ -17,7 +18,7 @@ import { MAIN_ORGANIZER, HELPER_ORGANIZER } from '../constans';
 import '../styles/layout.scss';
 import layoutStyles from './layout.module.scss';
 
-library.add(faMapMarkerAlt, faAt, faPhone, faFax, faGlobe);
+library.add(faMapMarkerAlt, faAt, faPhone, faFax, faGlobe, faFilePdf);
 
 const Layout = ({ children, slug, currentEventName }) => {
   const data = useStaticQuery(
