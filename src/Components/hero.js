@@ -9,7 +9,7 @@ import Jumbotron from 'react-bootstrap/Jumbotron';
 import Counter from './counter';
 import Independence from './independence';
 
-import { POLISH_MONTHS } from '../constans';
+import { POLISH_MONTHS } from '../const';
 
 import heroStyles from './hero.module.scss';
 

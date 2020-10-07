@@ -4,7 +4,7 @@ import { graphql, useStaticQuery } from 'gatsby';
 import Hero from '../components/hero';
 import HomeTemplate from '../templates/homeTemplate';
 
-import { CURRENT_EVENT } from '../constans';
+import { CURRENT_EVENT } from '../const';
 import Organizers from '../components/organizers';
 import KOINIntro from '../components/koinIntro';
 import KBNIntro from '../components/kbnIntro';

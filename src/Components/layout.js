@@ -13,7 +13,7 @@ import Cookies from './cookies';
 import Header from './header';
 import Footer from './footer';
 import SEO from './seo';
-import { CURRENT_EVENT, MAIN_ORGANIZER, HELPER_ORGANIZER } from '../constans';
+import { CURRENT_EVENT, MAIN_ORGANIZER, HELPER_ORGANIZER } from '../const';
 
 import '../styles/layout.scss';
 import layoutStyles from './layout.module.scss';

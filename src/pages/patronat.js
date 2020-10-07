@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 
 import Layout from '../templates/siteTemplate';
 import PatronsGroup from '../components/patronsGroup';
-import { CURRENT_EVENT, PATRONS_ROLE_PRIORITY } from '../constans';
+import { CURRENT_EVENT, PATRONS_ROLE_PRIORITY } from '../const';
 
 import patronatStyles from './patronat.module.scss';
 
