@@ -41,7 +41,7 @@ const Sponsors = () => {
     if (!goupedPatrons.find((i) => i.name === patron[currentEventKey])) {
       const patronsGroup = {};
       const related = PATRONS_ROLE_PRIORITY.find(
-        (i) => i.name === patron[currentEventKey]
+        (i) => i.role === patron[currentEventKey]
       );
       patronsGroup.name = patron[currentEventKey];
       patronsGroup.list = [patron];

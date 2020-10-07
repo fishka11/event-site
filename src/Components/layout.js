@@ -12,63 +12,30 @@ import Cookies from './cookies';
 import Header from './header';
 import Footer from './footer';
 import SEO from './seo';
-import { CURRENT_EVENT, MAIN_ORGANIZER, HELPER_ORGANIZER } from '../constans';
+import { MAIN_ORGANIZER, HELPER_ORGANIZER } from '../constans';
 
 import '../styles/layout.scss';
 import layoutStyles from './layout.module.scss';
 
 library.add(faMapMarkerAlt, faAt, faPhone, faFax, faGlobe);
 
-const Layout = ({ children, slug }) => {
+const Layout = ({ children, slug, currentEventName }) => {
   const data = useStaticQuery(
     graphql`
       query {
         graphcms {
           events {
-            eventName
-            eventFullName
-            brand {
-              id
-              url
-              fileName
-              height
-              width
-            }
-            organizers {
-              id
-              name
-              shortName
-              organizerType
-              logo {
-                width
-                height
-                url
-              }
-              webSite
-              eMail
-              address
-              postalCode
-              city
-              phone
-              fax
-            }
-            eventSiteMenu(orderBy: itemOrder_ASC) {
-              displayName
-              id
-              visibleInMenu
-              itemOrder
-              path
-              button
-              description
-              title
-            }
+            ...EventInformation
+            ...EventBrandLogo
+            ...EventMenuItems
+            ...EventOrganizers
           }
         }
       }
     `
   );
   const currentEvent = data.graphcms.events.find(
-    (item) => item.eventName.toLowerCase() === CURRENT_EVENT.toLocaleLowerCase()
+    (item) => item.eventName.toLowerCase() === currentEventName.toLowerCase()
   );
   const menuItems = currentEvent.eventSiteMenu.filter(
     (item) => item.visibleInMenu === true

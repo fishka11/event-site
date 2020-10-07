@@ -36,7 +36,7 @@
         "trailingComma": "es5"
       }
     ],
-    "react/prop-types": 0
+    "react/prop-types": 1
   },
   "settings": {
     "import/resolver": { "node": { "paths": ["./src"], "extensions": [".js"] } }

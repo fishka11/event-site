@@ -1,72 +1,17 @@
 import React from 'react';
-import { graphql, useStaticQuery } from 'gatsby';
+import { graphql } from 'gatsby';
 
 import Hero from '../components/hero';
 import HomeTemplate from '../templates/homeTemplate';
 
-import { CURRENT_EVENT } from '../constans';
 import Organizers from '../components/organizers';
 import KOINIntro from '../components/koinIntro';
 import KBNIntro from '../components/kbnIntro';
 
-const IndexPage = () => {
-  const data = useStaticQuery(
-    graphql`
-      query {
-        graphcms {
-          events {
-            eventName
-            eventFullName
-            eventType
-            genitiveEventType
-            locativeEventType
-            eventStartDate
-            eventEndDate
-            singleRoomPrice
-            doubleRoomPrice
-            cite
-            citeAuthor
-            picturesStrap {
-              url
-            }
-            eventLocation {
-              name
-              address
-              postalCode
-              city
-              webSite
-              googleMapsCode
-            }
-            organizers {
-              id
-              name
-              shortName
-              organizerType
-              logo {
-                url
-              }
-              webSite
-              eMail
-              address
-              postalCode
-              city
-              phone
-              fax
-              bankName
-              bankAccount
-              nip
-              regon
-            }
-          }
-        }
-      }
-    `
-  );
-  const currentEvent = data.graphcms.events.find(
-    (event) => event.eventName.toLowerCase() === CURRENT_EVENT.toLowerCase()
-  );
+const IndexPage = ({ data, pageContext }) => {
+  const currentEvent = data.graphcms.events[0];
   const eventSwitch = () => {
-    switch (currentEvent.eventName.toLowerCase()) {
+    switch (pageContext.currentEvent.toLowerCase()) {
       case 'koin':
         return <KOINIntro pictures={currentEvent.picturesStrap} />;
       case 'kbn':
@@ -77,12 +22,25 @@ const IndexPage = () => {
   };
   return (
     // eslint-disable-next-line prettier/prettier
-    <HomeTemplate slug="">
+    <HomeTemplate slug="" currentEventName={currentEvent.eventName}>
       <Hero currentEvent={currentEvent} />
       <Organizers organizers={currentEvent.organizers} />
       {eventSwitch()}
     </HomeTemplate>
   );
 };
+
+export const data = graphql`
+  query($currentEvent: GraphCMS_EventName) {
+    graphcms {
+      events(where: { eventName: $currentEvent }) {
+        ...EventInformation
+        ...EventPictureStrap
+        ...EventLocation
+        ...EventOrganizers
+      }
+    }
+  }
+`;
 
 export default IndexPage;
