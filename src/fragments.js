@@ -58,6 +58,7 @@ export const query = graphql`
 
   fragment EventPictureStrap on GraphCMS_Event {
     picturesStrap {
+      id
       url
     }
   }
