@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import Layout from '../templates/siteTemplate';
-import { CURRENT_EVENT, ROLE_SPEAKER } from '../constans';
+import { CURRENT_EVENT, ROLE_SPEAKER } from '../const';
 
 import prelegenciStyles from './prelegenci.module.scss';
 

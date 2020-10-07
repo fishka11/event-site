@@ -9,7 +9,7 @@ import Col from 'react-bootstrap/Col';
 import GoogleMap from '../components/embeddedGoogleMap';
 
 import Layout from '../templates/siteTemplate';
-import { CURRENT_EVENT, MAIN_ORGANIZER, TYPE_CONFERENCE } from '../constans';
+import { CURRENT_EVENT, MAIN_ORGANIZER, TYPE_CONFERENCE } from '../const';
 
 import kontaktStyles from './kontakt.module.scss';
 

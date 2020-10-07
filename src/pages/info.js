@@ -10,7 +10,7 @@ import GoogleMap from '../components/embeddedGoogleMap';
 
 import SiteTemplate from '../templates/siteTemplate';
 import pointer from '../assets/agenda-pointer.png';
-import { CURRENT_EVENT, MAIN_ORGANIZER, HELPER_ORGANIZER } from '../constans';
+import { CURRENT_EVENT, MAIN_ORGANIZER, HELPER_ORGANIZER } from '../const';
 
 import infoStyles from './info.module.scss';
 
