@@ -67,7 +67,8 @@ $featureColor: salmon;
   margin-bottom: 0;
 }
 
-.features dt {
+.features dt,
+.speaker {
   color: $featureColor;
   font-weight: 500;
 }
