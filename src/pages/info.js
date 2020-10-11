@@ -1,5 +1,6 @@
 import React from 'react';
-import { graphql, useStaticQuery, Link } from 'gatsby';
+import PropTypes from 'prop-types';
+import { graphql, Link } from 'gatsby';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -10,67 +11,12 @@ import GoogleMap from '../components/embeddedGoogleMap';
 
 import SiteTemplate from '../templates/siteTemplate';
 import pointer from '../assets/agenda-pointer.png';
-import { CURRENT_EVENT, MAIN_ORGANIZER, HELPER_ORGANIZER } from '../const';
+import { MAIN_ORGANIZER, HELPER_ORGANIZER, FLECTION } from '../const';
 
 import infoStyles from './info.module.scss';
 
-const Info = () => {
-  const data = useStaticQuery(
-    graphql`
-      query {
-        graphcms {
-          eventDiscounts {
-            id
-            name
-            discount
-          }
-          events {
-            eventName
-            eventFullName
-            eventType
-            genitiveEventType
-            locativeEventType
-            eventStartDate
-            eventEndDate
-            singleRoomPrice
-            doubleRoomPrice
-
-            eventLocation {
-              name
-              address
-              postalCode
-              city
-              webSite
-              googleMapsCode
-            }
-            organizers {
-              id
-              name
-              shortName
-              organizerType
-              logo {
-                url
-              }
-              webSite
-              eMail
-              address
-              postalCode
-              city
-              phone
-              fax
-              bankName
-              bankAccount
-              nip
-              regon
-            }
-          }
-        }
-      }
-    `
-  );
-  const currentEvent = data.graphcms.events.find(
-    (event) => event.eventName.toLowerCase() === CURRENT_EVENT.toLowerCase()
-  );
+const Info = ({ data }) => {
+  const currentEvent = data.graphcms.events[0];
   const eventStartDate = new Date(currentEvent.eventStartDate);
   const eventEndDate = new Date(currentEvent.eventEndDate);
   const eventDuration = eventEndDate.getDate() - eventStartDate.getDate();
@@ -86,6 +32,9 @@ const Info = () => {
   const phone = mainOrganizer.phone[0];
   const fax = mainOrganizer.fax[0];
   const location = currentEvent.eventLocation;
+  const eventTypeFlection = FLECTION.find(
+    (item) => item.eventType === currentEvent.eventType
+  );
 
   const tense = () => {
     if (Date.now() < eventStartDate) {
@@ -98,7 +47,7 @@ const Info = () => {
   };
 
   return (
-    <SiteTemplate slug="info">
+    <SiteTemplate slug="info" currentEventName={currentEvent.eventName}>
       <Container>
         <h1>Informacje organizacyjne</h1>
         <section className={infoStyles.section}>
@@ -117,10 +66,9 @@ const Info = () => {
               <ol>
                 <li>
                   Przyjazd, rejestracja i zakwaterowanie uczestników{' '}
-                  {currentEvent.genitiveEventType} w dniu{' '}
-                  {eventStartDate.getDate()}.
-                  {(eventStartDate.getMonth() + 1).toString().padStart(2, '0')}.
-                  {eventStartDate.getFullYear()} r. do godz.{' '}
+                  {eventTypeFlection.genitive} w dniu {eventStartDate.getDate()}
+                  .{(eventStartDate.getMonth() + 1).toString().padStart(2, '0')}
+                  .{eventStartDate.getFullYear()} r. do godz.{' '}
                   {eventStartDate.getHours() - 1}.
                   {eventDuration < 2
                     ? (eventStartDate.getMinutes() + 30)
@@ -137,8 +85,8 @@ const Info = () => {
                 </li>
                 <li>
                   <span className="font-weight-bold">
-                    Koszt uczestnictwa w {currentEvent.locativeEventType} wynosi
-                    od osoby:
+                    Koszt uczestnictwa w {eventTypeFlection.locative} wynosi od
+                    osoby:
                   </span>
                   <ul>
                     <li className="font-weight-bold">
@@ -180,8 +128,8 @@ const Info = () => {
                 </li>
                 <li>
                   Zgłoszenia uczestnictwa prosimy przesyłać najpóźniej na 5 dni
-                  roboczych przed rozpoczęciem {currentEvent.genitiveEventType}{' '}
-                  na adres{' '}
+                  roboczych przed rozpoczęciem {eventTypeFlection.genitive} na
+                  adres{' '}
                   <span className="font-weight-bold">
                     <a href={`mailto:${email}`}>{email}</a>
                   </span>
@@ -204,8 +152,8 @@ const Info = () => {
                   <span className="font-weight-bold">
                     {mainOrganizer.bankAccount}
                   </span>{' '}
-                  przed rozpoczęciem {currentEvent.genitiveEventType} (nie
-                  dotyczy sfery budżetowej).
+                  przed rozpoczęciem {eventTypeFlection.genitive} (nie dotyczy
+                  sfery budżetowej).
                 </li>
                 <li>
                   Zgłoszenie udziału jest zobowiązaniem do zapłaty. Rezygnację
@@ -216,7 +164,7 @@ const Info = () => {
                   rozpoczęciem obrad nie zwalnia od zapłaty.
                 </li>
                 <li>
-                  Miejsce {currentEvent.genitiveEventType}:{' '}
+                  Miejsce {eventTypeFlection.genitive}:{' '}
                   <span className="font-weight-bold">{location.name}</span>,{' '}
                   {location.address}, {location.postalCode} {location.city}.
                 </li>
@@ -228,18 +176,21 @@ const Info = () => {
                   {fax}.
                 </li>
                 <li>
-                  Przebieg wydarzenia może zostać utrwalony za pomocą urządzeń
-                  rejestrujących obraz i dźwięk.
+                  Przebieg {eventTypeFlection.genitive} może zostać utrwalony za
+                  pomocą urządzeń rejestrujących obraz i dźwięk.
                 </li>
                 <li>
                   Zgłoszenie uczestnictwa jest równoznaczne z wyrażeniem zgody
                   na publikację wizerunku bądź wypowiedzi utrwalonych podczas
-                  wydarzenia, stosownie do art. 81 ust. 1 ustawy z dnia 4 lutego
-                  1994 r. o prawie autorskim i prawach pokrewnych (Dz. U. z 2019
-                  r. poz.1231, z późn. zm.) i na wykorzystanie ich w materiałach
-                  go promujących, w tym publikowanych w postaci zdjęć lub filmów
-                  na <Link to="/">stronie internetowej wydarzenia</Link>,
-                  stronach{' '}
+                  {eventTypeFlection.genitive}, stosownie do art. 81 ust. 1
+                  ustawy z dnia 4 lutego 1994 r. o prawie autorskim i prawach
+                  pokrewnych (Dz. U. z 2019 r. poz.1231, z późn. zm.) i na
+                  wykorzystanie ich w materiałach go promujących, w tym
+                  publikowanych w postaci zdjęć lub filmów na{' '}
+                  <Link to="/">
+                    stronie internetowej {eventTypeFlection.genitive}
+                  </Link>
+                  , stronach{' '}
                   {helperOrganizer ? (
                     <a
                       target="_blank"
@@ -319,11 +270,84 @@ const Info = () => {
               </p>
             </div>
           </address>
-          <GoogleMap location={location} title={currentEvent.name} />
+          <GoogleMap location={location} title={currentEvent.eventFullName} />
         </section>
       </Container>
     </SiteTemplate>
   );
+};
+
+export const data = graphql`
+  query($currentEvent: GraphCMS_EventName) {
+    graphcms {
+      events(where: { eventName: $currentEvent }) {
+        ...EventInformation
+        ...EventOrganizers
+        ...EventLocation
+      }
+      eventDiscounts {
+        ...Discounts
+      }
+    }
+  }
+`;
+
+Info.propTypes = {
+  data: PropTypes.shape({
+    graphcms: PropTypes.shape({
+      events: PropTypes.arrayOf(
+        PropTypes.shape({
+          eventName: PropTypes.string,
+          eventFullName: PropTypes.string,
+          eventType: PropTypes.string,
+          cite: PropTypes.string,
+          citeAuthor: PropTypes.string,
+          doubleRoomPrice: PropTypes.number,
+          singleRoomPrice: PropTypes.number,
+          eventStartDate: PropTypes.string,
+          eventEndDate: PropTypes.string,
+          eventLocation: PropTypes.shape({
+            name: PropTypes.string,
+            address: PropTypes.string,
+            postalCode: PropTypes.string,
+            city: PropTypes.string,
+            webSite: PropTypes.string,
+            googleMapsCode: PropTypes.string,
+          }),
+          organizers: PropTypes.arrayOf(
+            PropTypes.shape({
+              id: PropTypes.string,
+              name: PropTypes.string,
+              shortName: PropTypes.string,
+              organizerType: PropTypes.string,
+              address: PropTypes.string,
+              postalCode: PropTypes.string,
+              city: PropTypes.string,
+              webSite: PropTypes.string,
+              eMail: PropTypes.arrayOf(PropTypes.string),
+              phone: PropTypes.arrayOf(PropTypes.string),
+              fax: PropTypes.arrayOf(PropTypes.string),
+              nip: PropTypes.string,
+              regon: PropTypes.string,
+              bankAccount: PropTypes.string,
+              bankName: PropTypes.string,
+            })
+          ),
+        })
+      ),
+      eventDiscounts: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string,
+          name: PropTypes.string,
+          discount: PropTypes.number,
+        })
+      ),
+    }),
+  }),
+};
+
+Info.defaultProps = {
+  data: {},
 };
 
 export default Info;

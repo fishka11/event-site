@@ -1,5 +1,6 @@
 import React from 'react';
-import { graphql, useStaticQuery } from 'gatsby';
+import PropTypes from 'prop-types';
+import { graphql } from 'gatsby';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -8,55 +9,13 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import GoogleMap from '../components/embeddedGoogleMap';
 
-import Layout from '../templates/siteTemplate';
-import { CURRENT_EVENT, MAIN_ORGANIZER, TYPE_CONFERENCE } from '../const';
+import SiteTemplate from '../templates/siteTemplate';
+import { MAIN_ORGANIZER, TYPE_CONFERENCE } from '../const';
 
 import kontaktStyles from './kontakt.module.scss';
 
-const Contact = () => {
-  const data = useStaticQuery(
-    graphql`
-      query {
-        graphcms {
-          events {
-            eventName
-            eventFullName
-            eventType
-            eventStartDate
-            eventEndDate
-
-            eventLocation {
-              name
-              address
-              postalCode
-              city
-              webSite
-              googleMapsCode
-            }
-            organizers {
-              id
-              name
-              shortName
-              organizerType
-              logo {
-                url
-              }
-              webSite
-              eMail
-              address
-              postalCode
-              city
-              phone
-              fax
-            }
-          }
-        }
-      }
-    `
-  );
-  const currentEvent = data.graphcms.events.find(
-    (event) => event.eventName.toLowerCase() === CURRENT_EVENT.toLowerCase()
-  );
+const Contact = ({ data }) => {
+  const currentEvent = data.graphcms.events[0];
   const eventStartDate = new Date(currentEvent.eventStartDate);
   const eventEndDate = new Date(currentEvent.eventEndDate);
 
@@ -82,7 +41,7 @@ const Contact = () => {
       : 'odbył się';
   };
   return (
-    <Layout slug="kontakt">
+    <SiteTemplate slug="kontakt" currentEventName={currentEvent.eventName}>
       <Container>
         <h1>Kontakt & Lokalizacja</h1>
         <section>
@@ -186,13 +145,82 @@ const Contact = () => {
         <section className="google-map">
           <Row>
             <Col xs={12}>
-              <GoogleMap location={location} title={currentEvent.name} />
+              <GoogleMap
+                location={location}
+                title={currentEvent.eventFullName}
+              />
             </Col>
           </Row>
         </section>
       </Container>
-    </Layout>
+    </SiteTemplate>
   );
+};
+
+export const data = graphql`
+  query($currentEvent: GraphCMS_EventName) {
+    graphcms {
+      events(where: { eventName: $currentEvent }) {
+        ...EventInformation
+        ...EventOrganizers
+        ...EventLocation
+      }
+      eventDiscounts {
+        ...Discounts
+      }
+    }
+  }
+`;
+
+Contact.propTypes = {
+  data: PropTypes.shape({
+    graphcms: PropTypes.shape({
+      events: PropTypes.arrayOf(
+        PropTypes.shape({
+          eventName: PropTypes.string,
+          eventFullName: PropTypes.string,
+          eventType: PropTypes.string,
+          cite: PropTypes.string,
+          citeAuthor: PropTypes.string,
+          doubleRoomPrice: PropTypes.number,
+          singleRoomPrice: PropTypes.number,
+          eventStartDate: PropTypes.string,
+          eventEndDate: PropTypes.string,
+          eventLocation: PropTypes.shape({
+            name: PropTypes.string,
+            address: PropTypes.string,
+            postalCode: PropTypes.string,
+            city: PropTypes.string,
+            webSite: PropTypes.string,
+            googleMapsCode: PropTypes.string,
+          }),
+          organizers: PropTypes.arrayOf(
+            PropTypes.shape({
+              id: PropTypes.string,
+              name: PropTypes.string,
+              shortName: PropTypes.string,
+              organizerType: PropTypes.string,
+              address: PropTypes.string,
+              postalCode: PropTypes.string,
+              city: PropTypes.string,
+              webSite: PropTypes.string,
+              eMail: PropTypes.arrayOf(PropTypes.string),
+              phone: PropTypes.arrayOf(PropTypes.string),
+              fax: PropTypes.arrayOf(PropTypes.string),
+              nip: PropTypes.string,
+              regon: PropTypes.string,
+              bankAccount: PropTypes.string,
+              bankName: PropTypes.string,
+            })
+          ),
+        })
+      ),
+    }),
+  }),
+};
+
+Contact.defaultProps = {
+  data: {},
 };
 
 export default Contact;

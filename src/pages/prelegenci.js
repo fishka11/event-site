@@ -1,49 +1,28 @@
 import React from 'react';
-import { graphql, useStaticQuery } from 'gatsby';
+import PropTypes from 'prop-types';
+import { graphql } from 'gatsby';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import Layout from '../templates/siteTemplate';
-import { CURRENT_EVENT, ROLE_SPEAKER } from '../const';
+import SiteTemplate from '../templates/siteTemplate';
+import { ROLE_SPEAKER } from '../const';
 
 import prelegenciStyles from './prelegenci.module.scss';
 
-const Speakers = () => {
-  const data = useStaticQuery(
-    graphql`
-      query {
-        graphcms {
-          conferees {
-            id
-            title
-            firstName
-            lastName
-            description
-            photo {
-              url
-            }
-            events
-            roleKBB
-            roleKBN
-            roleKOIN
-            roleZPO
-          }
-        }
-      }
-    `
-  );
-
+const Speakers = ({ data, pageContext }) => {
+  const currentEvent = data.graphcms.events[0];
   const filteredSpeakers = data.graphcms.conferees
     .filter((conferee) =>
       conferee.events.find(
-        (event) => event.toLowerCase() === CURRENT_EVENT.toLowerCase()
+        (event) =>
+          event.toLowerCase() === pageContext.currentEvent.toLowerCase()
       )
     )
     .filter(
       (conferee) =>
-        conferee[`role${CURRENT_EVENT}`].toLowerCase() ===
+        conferee[`role${pageContext.currentEvent}`].toLowerCase() ===
         ROLE_SPEAKER.toLowerCase()
     );
   const collator = new Intl.Collator('pl', {
@@ -54,7 +33,7 @@ const Speakers = () => {
     collator.compare(a.lastName, b.lastName)
   );
   return (
-    <Layout slug="prelegenci">
+    <SiteTemplate slug="prelegenci" currentEventName={currentEvent.eventName}>
       <Container>
         <h1>Prelegenci</h1>
         <section>
@@ -82,8 +61,54 @@ const Speakers = () => {
           </Row>
         </section>
       </Container>
-    </Layout>
+    </SiteTemplate>
   );
+};
+
+export const data = graphql`
+  query($currentEvent: GraphCMS_EventName) {
+    graphcms {
+      events(where: { eventName: $currentEvent }) {
+        ...EventName
+      }
+      conferees {
+        ...Conferees
+      }
+    }
+  }
+`;
+
+Speakers.propTypes = {
+  data: PropTypes.shape({
+    graphcms: PropTypes.shape({
+      events: PropTypes.arrayOf(
+        PropTypes.shape({
+          eventName: PropTypes.string,
+        })
+      ),
+      conferees: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string,
+          title: PropTypes.string,
+          firstName: PropTypes.string,
+          lastName: PropTypes.string,
+          description: PropTypes.string,
+          photo: PropTypes.shape({ url: PropTypes.string }),
+          events: PropTypes.arrayOf(PropTypes.string),
+          roleKBB: PropTypes.PropTypes.string,
+          roleKBN: PropTypes.PropTypes.string,
+          roleKOIN: PropTypes.PropTypes.string,
+          roleZPO: PropTypes.PropTypes.string,
+        })
+      ),
+    }),
+  }),
+  pageContext: PropTypes.shape({ currentEvent: PropTypes.string.isRequired })
+    .isRequired,
+};
+
+Speakers.defaultProps = {
+  data: {},
 };
 
 export default Speakers;

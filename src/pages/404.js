@@ -1,31 +1,16 @@
 import React from 'react';
-import { graphql, useStaticQuery } from 'gatsby';
+import PropTypes from 'prop-types';
+import { graphql } from 'gatsby';
 
 import Container from 'react-bootstrap/Container';
-import Layout from '../templates/siteTemplate';
-
-import { CURRENT_EVENT } from '../const';
+import SiteTemplate from '../templates/siteTemplate';
 
 import notFoundStyles from './notFound.module.scss';
 
-const GenericNotFound = () => {
-  const data = useStaticQuery(
-    graphql`
-      query {
-        graphcms {
-          events {
-            eventName
-            eventFullName
-          }
-        }
-      }
-    `
-  );
-  const currentEvent = data.graphcms.events.find(
-    (event) => event.eventName.toLowerCase() === CURRENT_EVENT.toLowerCase()
-  );
+const GenericNotFound = ({ data }) => {
+  const currentEvent = data.graphcms.events[0];
   return (
-    <Layout>
+    <SiteTemplate slug="404" currentEventName={currentEvent.eventName}>
       <Container className={notFoundStyles.container}>
         <section>
           <h1 className={notFoundStyles.h1}>404</h1>
@@ -42,8 +27,36 @@ const GenericNotFound = () => {
           </p>
         </section>
       </Container>
-    </Layout>
+    </SiteTemplate>
   );
+};
+
+export const data = graphql`
+  query($currentEvent: GraphCMS_EventName) {
+    graphcms {
+      events(where: { eventName: $currentEvent }) {
+        ...EventName
+        ...EventFullName
+      }
+    }
+  }
+`;
+
+GenericNotFound.propTypes = {
+  data: PropTypes.shape({
+    graphcms: PropTypes.shape({
+      events: PropTypes.arrayOf(
+        PropTypes.shape({
+          eventName: PropTypes.string,
+          eventFullName: PropTypes.string,
+        })
+      ),
+    }),
+  }),
+};
+
+GenericNotFound.defaultProps = {
+  data: {},
 };
 
 export default GenericNotFound;

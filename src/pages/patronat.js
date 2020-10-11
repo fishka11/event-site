@@ -1,44 +1,28 @@
 import React from 'react';
-import { graphql, useStaticQuery } from 'gatsby';
+import PropTypes from 'prop-types';
+import { graphql } from 'gatsby';
 
 import Container from 'react-bootstrap/Container';
 
-import Layout from '../templates/siteTemplate';
+import SiteTemplate from '../templates/siteTemplate';
 import PatronsGroup from '../components/patronsGroup';
-import { CURRENT_EVENT, PATRONS_ROLE_PRIORITY } from '../const';
+import { PATRONS_ROLE_PRIORITY } from '../const';
 
 import patronatStyles from './patronat.module.scss';
 
-const Sponsors = () => {
-  const data = useStaticQuery(
-    graphql`
-      query {
-        graphcms {
-          patrons {
-            id
-            name
-            logo {
-              url
-            }
-            events
-            roleKBB
-            roleKBN
-            roleKOIN
-            roleZPO
-          }
-        }
-      }
-    `
-  );
+const Sponsors = ({ data, pageContext }) => {
+  const currentEvent = data.graphcms.events[0];
   const filteredPatrons = data.graphcms.patrons.filter((patron) =>
     patron.events.find(
-      (event) => event.toLowerCase() === CURRENT_EVENT.toLowerCase()
+      (event) => event.toLowerCase() === pageContext.currentEvent.toLowerCase()
     )
   );
   const goupedPatrons = [];
   filteredPatrons.forEach((patron) => {
-    const currentEventKey = `role${CURRENT_EVENT}`;
-    if (!goupedPatrons.find((i) => i.name === patron[currentEventKey])) {
+    const currentEventKey = `role${pageContext.currentEvent}`;
+    if (
+      !goupedPatrons.find((group) => group.name === patron[currentEventKey])
+    ) {
       const patronsGroup = {};
       const related = PATRONS_ROLE_PRIORITY.find(
         (i) => i.role === patron[currentEventKey]
@@ -62,7 +46,7 @@ const Sponsors = () => {
     collator.compare(a.priority, b.priority)
   );
   return (
-    <Layout slug="patronat">
+    <SiteTemplate slug="patronat" currentEventName={currentEvent.eventName}>
       <Container>
         <h1>Patronat</h1>
         {sortedPatrons.map((patronGroup) => (
@@ -76,8 +60,52 @@ const Sponsors = () => {
           </section>
         ))}
       </Container>
-    </Layout>
+    </SiteTemplate>
   );
+};
+
+export const data = graphql`
+  query($currentEvent: GraphCMS_EventName) {
+    graphcms {
+      events(where: { eventName: $currentEvent }) {
+        ...EventName
+      }
+      patrons {
+        ...Patrons
+      }
+    }
+  }
+`;
+
+Sponsors.propTypes = {
+  data: PropTypes.shape({
+    graphcms: PropTypes.shape({
+      events: PropTypes.arrayOf(
+        PropTypes.shape({
+          eventName: PropTypes.string,
+        })
+      ),
+      patrons: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string,
+          title: PropTypes.string,
+          name: PropTypes.string,
+          logo: PropTypes.shape({ url: PropTypes.string }),
+          events: PropTypes.arrayOf(PropTypes.string),
+          roleKBB: PropTypes.PropTypes.string,
+          roleKBN: PropTypes.PropTypes.string,
+          roleKOIN: PropTypes.PropTypes.string,
+          roleZPO: PropTypes.PropTypes.string,
+        })
+      ),
+    }),
+  }),
+  pageContext: PropTypes.shape({ currentEvent: PropTypes.string.isRequired })
+    .isRequired,
+};
+
+Sponsors.defaultProps = {
+  data: {},
 };
 
 export default Sponsors;

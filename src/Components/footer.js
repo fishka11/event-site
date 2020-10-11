@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { graphql, useStaticQuery } from 'gatsby';
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -6,9 +8,32 @@ import Container from 'react-bootstrap/Container';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { MAIN_ORGANIZER, HELPER_ORGANIZER } from '../const';
+
 import footerStyles from './footer.module.scss';
 
-const Footer = ({ organizer }) => {
+const Footer = ({ currentEventName = '' }) => {
+  const data = useStaticQuery(
+    graphql`
+      query {
+        graphcms {
+          events {
+            ...PageFooter
+          }
+        }
+      }
+    `
+  );
+  const currentEvent = data.graphcms.events.find(
+    (item) => item.eventName.toLowerCase() === currentEventName.toLowerCase()
+  );
+  const mainOrganizer = currentEvent.organizers.find(
+    (organizer) => organizer.organizerType === MAIN_ORGANIZER
+  );
+  const helperOrganizer = currentEvent.organizers.find(
+    (organizer) => organizer.organizerType === HELPER_ORGANIZER
+  );
+  const organizer = helperOrganizer || mainOrganizer;
   return (
     <footer className={footerStyles.footer}>
       <Container>
@@ -116,6 +141,39 @@ const Footer = ({ organizer }) => {
       </Container>
     </footer>
   );
+};
+
+Footer.propTypes = {
+  currentEventName: PropTypes.string.isRequired,
+  data: PropTypes.shape({
+    graphcms: PropTypes.shape({
+      events: PropTypes.arrayOf(
+        PropTypes.shape({
+          eventFullName: PropTypes.string.isRequired,
+          eventName: PropTypes.string.isRequired,
+          organizers: PropTypes.arrayOf(
+            PropTypes.shape({
+              name: PropTypes.string.isRequired,
+              shortName: PropTypes.string,
+              organizerType: PropTypes.string,
+              address: PropTypes.string,
+              postalCode: PropTypes.string,
+              city: PropTypes.PropTypes.string,
+              webSite: PropTypes.string,
+              eMail: PropTypes.arrayOf(PropTypes.string),
+              phone: PropTypes.arrayOf(PropTypes.string),
+              fax: PropTypes.arrayOf(PropTypes.string),
+              logo: PropTypes.shape({ url: PropTypes.string }),
+            })
+          ),
+        })
+      ),
+    }),
+  }),
+};
+
+Footer.defaultProps = {
+  data: {},
 };
 
 export default Footer;

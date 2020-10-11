@@ -1,5 +1,5 @@
 import React from 'react';
-import { graphql, useStaticQuery } from 'gatsby';
+import PropTypes from 'prop-types';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faMapMarkerAlt,
@@ -13,7 +13,6 @@ import Cookies from './cookies';
 import Header from './header';
 import Footer from './footer';
 import SEO from './seo';
-import { MAIN_ORGANIZER, HELPER_ORGANIZER } from '../const';
 
 import '../styles/layout.scss';
 import layoutStyles from './layout.module.scss';
@@ -21,48 +20,23 @@ import layoutStyles from './layout.module.scss';
 library.add(faMapMarkerAlt, faAt, faPhone, faFax, faGlobe, faFilePdf);
 
 const Layout = ({ children, slug, currentEventName }) => {
-  const data = useStaticQuery(
-    graphql`
-      query {
-        graphcms {
-          events {
-            ...EventInformation
-            ...EventBrandLogo
-            ...EventMenuItems
-            ...EventOrganizers
-          }
-        }
-      }
-    `
-  );
-  const currentEvent = data.graphcms.events.find(
-    (item) => item.eventName.toLowerCase() === currentEventName.toLowerCase()
-  );
-  const menuItems = currentEvent.eventSiteMenu.filter(
-    (item) => item.visibleInMenu === true
-  );
-  const mainOrganizer = currentEvent.organizers.find(
-    (organizer) => organizer.organizerType === MAIN_ORGANIZER
-  );
-  const helperOrganizer = currentEvent.organizers.find(
-    (organizer) => organizer.organizerType === HELPER_ORGANIZER
-  );
-  const organizer = helperOrganizer || mainOrganizer;
   return (
     <div className={layoutStyles.siteWrapper}>
       <div className={layoutStyles.headerWithContent}>
-        <Header
-          menuItems={menuItems}
-          brand={currentEvent.brand}
-          eventFullName={currentEvent.eventFullName}
-        />
-        <SEO metaData={currentEvent.eventSiteMenu} slug={slug} />
+        <Header currentEventName={currentEventName} />
+        <SEO slug={slug} currentEventName={currentEventName} />
         {children}
       </div>
-      <Footer organizer={organizer} />
+      <Footer currentEventName={currentEventName} />
       <Cookies />
     </div>
   );
+};
+
+Layout.propTypes = {
+  children: PropTypes.shape().isRequired,
+  slug: PropTypes.string.isRequired,
+  currentEventName: PropTypes.string.isRequired,
 };
 
 export default Layout;

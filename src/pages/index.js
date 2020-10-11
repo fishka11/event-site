@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { graphql } from 'gatsby';
 
 import Hero from '../components/hero';
@@ -42,5 +43,64 @@ export const data = graphql`
     }
   }
 `;
+
+IndexPage.propTypes = {
+  data: PropTypes.shape({
+    graphcms: PropTypes.shape({
+      events: PropTypes.arrayOf(
+        PropTypes.shape({
+          eventName: PropTypes.string,
+          eventFullName: PropTypes.string,
+          eventType: PropTypes.string,
+          cite: PropTypes.string,
+          citeAuthor: PropTypes.string,
+          doubleRoomPrice: PropTypes.number,
+          singleRoomPrice: PropTypes.number,
+          eventStartDate: PropTypes.string,
+          eventEndDate: PropTypes.string,
+          picturesStrap: PropTypes.arrayOf(
+            PropTypes.shape({
+              id: PropTypes.string,
+              url: PropTypes.string,
+            })
+          ),
+          eventLocation: PropTypes.shape({
+            name: PropTypes.string,
+            address: PropTypes.string,
+            postalCode: PropTypes.string,
+            city: PropTypes.string,
+            webSite: PropTypes.string,
+            googleMapsCode: PropTypes.string,
+          }),
+          organizers: PropTypes.arrayOf(
+            PropTypes.shape({
+              id: PropTypes.string,
+              name: PropTypes.string,
+              shortName: PropTypes.string,
+              organizerType: PropTypes.string,
+              address: PropTypes.string,
+              postalCode: PropTypes.string,
+              city: PropTypes.string,
+              webSite: PropTypes.string,
+              eMail: PropTypes.arrayOf(PropTypes.string),
+              phone: PropTypes.arrayOf(PropTypes.string),
+              fax: PropTypes.arrayOf(PropTypes.string),
+              nip: PropTypes.string,
+              regon: PropTypes.string,
+              bankAccount: PropTypes.string,
+              bankName: PropTypes.string,
+            })
+          ),
+        })
+      ),
+    }),
+  }),
+  pageContext: PropTypes.shape({ currentEvent: PropTypes.string.isRequired })
+    .isRequired,
+};
+
+IndexPage.defaultProps = {
+  data: {},
+};
 
 export default IndexPage;

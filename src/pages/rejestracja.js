@@ -1,33 +1,19 @@
 import React from 'react';
-import { graphql, useStaticQuery } from 'gatsby';
+import PropTypes from 'prop-types';
+import { graphql } from 'gatsby';
 
 import Container from 'react-bootstrap/Container';
-import Layout from '../templates/siteTemplate';
+import SiteTemplate from '../templates/siteTemplate';
 
-import { CURRENT_EVENT } from '../const';
-
-const Register = () => {
-  const data = useStaticQuery(
-    graphql`
-      query {
-        graphcms {
-          events {
-            eventName
-          }
-        }
-      }
-    `
-  );
-  const currentEvent = data.graphcms.events.find(
-    (event) => event.eventName.toLowerCase() === CURRENT_EVENT.toLowerCase()
-  );
+const Register = ({ data }) => {
+  const currentEvent = data.graphcms.events[0];
   return (
-    <Layout slug="rejestracja">
+    <SiteTemplate slug="rejestracja" currentEventName={currentEvent.eventName}>
       <Container>
         <h1>Zarejestruj się</h1>
         <section>
           <iframe
-            src={`https://www.ksoin.pl/${currentEvent.eventName}-rejestracja/`}
+            src={`https://www.ksoin.pl/${currentEvent.eventName.toUpperCase()}-rejestracja/`}
             marginWidth="0"
             marginHeight="0"
             width="100%"
@@ -37,8 +23,34 @@ const Register = () => {
           />
         </section>
       </Container>
-    </Layout>
+    </SiteTemplate>
   );
+};
+
+export const data = graphql`
+  query($currentEvent: GraphCMS_EventName) {
+    graphcms {
+      events(where: { eventName: $currentEvent }) {
+        ...EventName
+      }
+    }
+  }
+`;
+
+Register.propTypes = {
+  data: PropTypes.shape({
+    graphcms: PropTypes.shape({
+      events: PropTypes.arrayOf(
+        PropTypes.shape({
+          eventName: PropTypes.string,
+        })
+      ),
+    }),
+  }),
+};
+
+Register.defaultProps = {
+  data: {},
 };
 
 export default Register;

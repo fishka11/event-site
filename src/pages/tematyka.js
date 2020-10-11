@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, graphql, useStaticQuery } from 'gatsby';
+import PropTypes from 'prop-types';
+import { Link, graphql } from 'gatsby';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -7,31 +8,16 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import Layout from '../templates/siteTemplate';
+import SiteTemplate from '../templates/siteTemplate';
 import pointer from '../assets/agenda-pointer.png';
-import { CURRENT_EVENT } from '../const';
 
 import tematykaStyles from './tematyka.module.scss';
 
-const Agenda = () => {
-  const data = useStaticQuery(
-    graphql`
-      query {
-        graphcms {
-          events {
-            eventName
-            agenda
-          }
-        }
-      }
-    `
-  );
-  const currentEvent = data.graphcms.events.find(
-    (event) => event.eventName.toLowerCase() === CURRENT_EVENT.toLowerCase()
-  );
+const Agenda = ({ data }) => {
+  const currentEvent = data.graphcms.events[0];
   const { agenda } = currentEvent;
   return (
-    <Layout slug="tematyka">
+    <SiteTemplate slug="tematyka" currentEventName={currentEvent.eventName}>
       <Container>
         <h1>Tematyka i Program</h1>
         <section>
@@ -76,8 +62,36 @@ const Agenda = () => {
           </Row>
         </section>
       </Container>
-    </Layout>
+    </SiteTemplate>
   );
+};
+
+export const data = graphql`
+  query($currentEvent: GraphCMS_EventName) {
+    graphcms {
+      events(where: { eventName: $currentEvent }) {
+        ...EventName
+        ...Agenda
+      }
+    }
+  }
+`;
+
+Agenda.propTypes = {
+  data: PropTypes.shape({
+    graphcms: PropTypes.shape({
+      events: PropTypes.arrayOf(
+        PropTypes.shape({
+          agenda: PropTypes.arrayOf(PropTypes.string),
+          eventName: PropTypes.string,
+        })
+      ),
+    }),
+  }),
+};
+
+Agenda.defaultProps = {
+  data: {},
 };
 
 export default Agenda;
