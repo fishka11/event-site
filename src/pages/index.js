@@ -51,6 +51,7 @@ IndexPage.propTypes = {
         PropTypes.shape({
           eventName: PropTypes.string,
           eventFullName: PropTypes.string,
+          cancelled: PropTypes.bool,
           eventType: PropTypes.string,
           cite: PropTypes.string,
           citeAuthor: PropTypes.string,

@@ -11,6 +11,7 @@ class Counter extends Component {
       hours: 0,
       mins: 0,
       secs: 0,
+      cancelled: props.cancelled,
     };
 
     this.tick = this.tick.bind(this);
@@ -45,51 +46,58 @@ class Counter extends Component {
   }
 
   render() {
-    const { eventStartDate, days, hours, mins, secs } = this.state;
-
+    const { eventStartDate, days, hours, mins, secs, cancelled } = this.state;
     return (
       <div>
-        {eventStartDate >= Date.now() ? (
+        {eventStartDate >= Date.now() && !cancelled ? (
           <p className={counterStyles.prolog}>Już za</p>
         ) : null}
-        <div className={counterStyles.counterContainer}>
-          {eventStartDate < Date.now() ? (
-            <p className={counterStyles.invitation}>
-              Zapraszamy ponownie w {eventStartDate.getFullYear() + 1} roku{' '}
-            </p>
-          ) : (
-            <p>
-              {days > 0 && (
-                <span>
-                  <span className={counterStyles.digit}>{days}</span>
-                  {days === 1 ? 'dzień' : 'dni'}
-                </span>
-              )}{' '}
-              {(days > 0 || hours > 0) && (
-                <span className="hours-left">
-                  <span className={counterStyles.digit}>
-                    {hours.toString().padStart(2, '0')}
+        {!cancelled ? (
+          <div className={counterStyles.counterContainer}>
+            {eventStartDate < Date.now() ? (
+              <p className={counterStyles.invitation}>
+                Zapraszamy ponownie w {eventStartDate.getFullYear() + 1} roku{' '}
+              </p>
+            ) : (
+              <p>
+                {days > 0 && (
+                  <span>
+                    <span className={counterStyles.digit}>{days}</span>
+                    {days === 1 ? 'dzień' : 'dni'}
                   </span>
-                  h
-                </span>
-              )}{' '}
-              {(days > 0 || hours > 0 || mins > 0) && (
-                <span className="mins-left">
-                  <span className={counterStyles.digit}>
-                    {mins.toString().padStart(2, '0')}
+                )}{' '}
+                {(days > 0 || hours > 0) && (
+                  <span className="hours-left">
+                    <span className={counterStyles.digit}>
+                      {hours.toString().padStart(2, '0')}
+                    </span>
+                    h
                   </span>
-                  min
+                )}{' '}
+                {(days > 0 || hours > 0 || mins > 0) && (
+                  <span className="mins-left">
+                    <span className={counterStyles.digit}>
+                      {mins.toString().padStart(2, '0')}
+                    </span>
+                    min
+                  </span>
+                )}{' '}
+                <span className="secs-left">
+                  <span className={counterStyles.digit}>
+                    {secs.toString().padStart(2, '0')}
+                  </span>
+                  s
                 </span>
-              )}{' '}
-              <span className="secs-left">
-                <span className={counterStyles.digit}>
-                  {secs.toString().padStart(2, '0')}
-                </span>
-                s
-              </span>
+              </p>
+            )}
+          </div>
+        ) : (
+          <div className={counterStyles.counterContainer2}>
+            <p className="lead">
+              Konfernecja została przeniesiona na marzec 2021
             </p>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     );
   }

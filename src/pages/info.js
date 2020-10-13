@@ -64,25 +64,47 @@ const Info = ({ data }) => {
             </Col>
             <Col xs={10} sm={11}>
               <ol>
-                <li>
-                  Przyjazd, rejestracja i zakwaterowanie uczestników{' '}
-                  {eventTypeFlection.genitive} w dniu {eventStartDate.getDate()}
-                  .{(eventStartDate.getMonth() + 1).toString().padStart(2, '0')}
-                  .{eventStartDate.getFullYear()} r. do godz.{' '}
-                  {eventStartDate.getHours() - 1}.
-                  {eventDuration < 2
-                    ? (eventStartDate.getMinutes() + 30)
-                        .toString()
-                        .padStart(2, '0')
-                    : eventStartDate.getMinutes().toString().padStart(2, '0')}
-                  . Rozpoczęcie obrad o godz. {eventStartDate.getHours()}.
-                  {eventStartDate.getMinutes().toString().padStart(2, '0')}, a
-                  zakończenie {eventEndDate.getDate()}.
-                  {(eventEndDate.getMonth() + 1).toString().padStart(2, '0')}.
-                  {eventEndDate.getFullYear()} r. ok. godz.{' '}
-                  {eventEndDate.getHours()}.
-                  {eventEndDate.getMinutes().toString().padStart(2, '0')}.
-                </li>
+                {!currentEvent.cancelled ? (
+                  <li>
+                    Przyjazd, rejestracja i zakwaterowanie uczestników{' '}
+                    {eventTypeFlection.genitive} w dniu{' '}
+                    {eventStartDate.getDate()}.
+                    {(eventStartDate.getMonth() + 1)
+                      .toString()
+                      .padStart(2, '0')}
+                    .{eventStartDate.getFullYear()} r. do godz.{' '}
+                    {eventStartDate.getHours() - 1}.
+                    {eventDuration < 2
+                      ? (eventStartDate.getMinutes() + 30)
+                          .toString()
+                          .padStart(2, '0')
+                      : eventStartDate.getMinutes().toString().padStart(2, '0')}
+                    . Rozpoczęcie obrad o godz. {eventStartDate.getHours()}.
+                    {eventStartDate.getMinutes().toString().padStart(2, '0')}, a
+                    zakończenie {eventEndDate.getDate()}.
+                    {(eventEndDate.getMonth() + 1).toString().padStart(2, '0')}.
+                    {eventEndDate.getFullYear()} r. ok. godz.{' '}
+                    {eventEndDate.getHours()}.
+                    {eventEndDate.getMinutes().toString().padStart(2, '0')}.
+                  </li>
+                ) : (
+                  <li>
+                    Przyjazd, rejestracja i zakwaterowanie uczestników{' '}
+                    {eventTypeFlection.genitive} do godz.{' '}
+                    {eventStartDate.getHours() - 1}.
+                    {eventDuration < 2
+                      ? (eventStartDate.getMinutes() + 30)
+                          .toString()
+                          .padStart(2, '0')
+                      : eventStartDate.getMinutes().toString().padStart(2, '0')}
+                    . Rozpoczęcie obrad o godz. {eventStartDate.getHours()}.
+                    {eventStartDate.getMinutes().toString().padStart(2, '0')}, a
+                    zakończenie następnego dnia ok. godz.{' '}
+                    {eventEndDate.getHours()}.
+                    {eventEndDate.getMinutes().toString().padStart(2, '0')}.
+                  </li>
+                )}
+
                 <li>
                   <span className="font-weight-bold">
                     Koszt uczestnictwa w {eventTypeFlection.locative} wynosi od

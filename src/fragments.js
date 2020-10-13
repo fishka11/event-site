@@ -20,6 +20,7 @@ export const query = graphql`
     doubleRoomPrice
     cite
     citeAuthor
+    cancelled
   }
 
   fragment Agenda on GraphCMS_Event {

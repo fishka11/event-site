@@ -97,19 +97,27 @@ const Contact = ({ data }) => {
               </address>
             </Col>
             <Col className={kontaktStyles.columnTwo} xs={12} lg={6}>
-              <p className="lead">{`${currentEvent.eventType
-                .charAt(0)
-                .toUpperCase()}${currentEvent.eventType.slice(
-                1
-              )} ${tense()} w dniach ${eventStartDate.getDate()}${
-                eventStartDate.getMonth() !== eventEndDate.getMonth()
-                  ? `.${(eventStartDate.getMonth() + 1)
-                      .toString()
-                      .padStart(2, '0')}`
-                  : ''
-              }-${eventEndDate.getDate()}.${(eventEndDate.getMonth() + 1)
-                .toString()
-                .padStart(2, '0')}.${eventStartDate.getFullYear()} w`}</p>
+              {!currentEvent.cancelled ? (
+                <p className="lead">{`${currentEvent.eventType
+                  .charAt(0)
+                  .toUpperCase()}${currentEvent.eventType.slice(
+                  1
+                )} ${tense()} w dniach ${eventStartDate.getDate()}${
+                  eventStartDate.getMonth() !== eventEndDate.getMonth()
+                    ? `.${(eventStartDate.getMonth() + 1)
+                        .toString()
+                        .padStart(2, '0')}`
+                    : ''
+                }-${eventEndDate.getDate()}.${(eventEndDate.getMonth() + 1)
+                  .toString()
+                  .padStart(2, '0')}.${eventStartDate.getFullYear()} w`}</p>
+              ) : (
+                <p className="lead">{`${currentEvent.eventType
+                  .charAt(0)
+                  .toUpperCase()}${currentEvent.eventType.slice(
+                  1
+                )} ${tense()} w`}</p>
+              )}
               <h3 className={kontaktStyles.h3}>{location.name}</h3>
               <address>
                 <div className={kontaktStyles.address}>

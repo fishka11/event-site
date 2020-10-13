@@ -17,6 +17,7 @@ const Hero = ({ currentEvent }) => {
   const multilineTitle = currentEvent.eventFullName.split('\n');
   const eventStartDate = new Date(currentEvent.eventStartDate);
   const eventEndDate = new Date(currentEvent.eventEndDate);
+  const { cancelled } = currentEvent;
   return (
     <section>
       <Jumbotron fluid className={heroStyles.jumbo}>
@@ -62,17 +63,19 @@ const Hero = ({ currentEvent }) => {
                 <p className={heroStyles.location}>
                   {currentEvent.eventLocation.city}
                 </p>
-                <p className={heroStyles.date}>
-                  {`${eventStartDate.getDate()} ${
-                    eventStartDate.getMonth() !== eventEndDate.getMonth()
-                      ? POLISH_MONTHS[eventStartDate.getMonth()]
-                      : ''
-                  } - ${eventEndDate.getDate()} ${
-                    POLISH_MONTHS[eventEndDate.getMonth()]
-                  } ${eventEndDate.getFullYear()}`}
-                </p>
+                {!cancelled ? (
+                  <p className={heroStyles.date}>
+                    {`${eventStartDate.getDate()} ${
+                      eventStartDate.getMonth() !== eventEndDate.getMonth()
+                        ? POLISH_MONTHS[eventStartDate.getMonth()]
+                        : ''
+                    } - ${eventEndDate.getDate()} ${
+                      POLISH_MONTHS[eventEndDate.getMonth()]
+                    } ${eventEndDate.getFullYear()}`}
+                  </p>
+                ) : null}
               </div>
-              <Counter eventStartDate={eventStartDate} />
+              <Counter eventStartDate={eventStartDate} cancelled={cancelled} />
               <Independence />
             </Col>
             <Col className={heroStyles.features} lg={5}>
