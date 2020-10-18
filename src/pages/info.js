@@ -327,6 +327,7 @@ Info.propTypes = {
           doubleRoomPrice: PropTypes.number,
           singleRoomPrice: PropTypes.number,
           eventStartDate: PropTypes.string,
+          cancelled: PropTypes.bool,
           eventEndDate: PropTypes.string,
           eventLocation: PropTypes.shape({
             name: PropTypes.string,

@@ -192,6 +192,7 @@ Contact.propTypes = {
           citeAuthor: PropTypes.string,
           doubleRoomPrice: PropTypes.number,
           singleRoomPrice: PropTypes.number,
+          cancelled: PropTypes.bool,
           eventStartDate: PropTypes.string,
           eventEndDate: PropTypes.string,
           eventLocation: PropTypes.shape({

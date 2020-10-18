@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
@@ -22,6 +22,21 @@ const PatronsGroup = ({ partnersList }) => {
       ))}
     </Row>
   );
+};
+
+PatronsGroup.propTypes = {
+  partnersList: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      logo: PropTypes.shape({ url: PropTypes.string }),
+      events: PropTypes.arrayOf(PropTypes.string),
+      roleKBB: PropTypes.string,
+      roleKBN: PropTypes.string,
+      roleKOIN: PropTypes.string,
+      roleZPO: PropTypes.string,
+    })
+  ).isRequired,
 };
 
 export default PatronsGroup;

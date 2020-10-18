@@ -1,14 +1,12 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import introStyles from './intro.module.scss';
 
 import PicturesStrap from './picturesStrap';
 
-const Intro = (props) => {
-  const { pictures } = props;
-
+const Intro = ({ pictures }) => {
   return (
     <section>
       <Container className={introStyles.container}>
@@ -104,4 +102,13 @@ const Intro = (props) => {
     </section>
   );
 };
+
+Intro.propTypes = {
+  pictures: PropTypes.arrayOf(
+    PropTypes.shape({ id: PropTypes.string, url: PropTypes.string })
+  ),
+};
+
+Intro.defaultProps = { pictures: [] };
+
 export default Intro;

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
@@ -24,5 +24,13 @@ const PicturesStrap = (props) => {
     </section>
   );
 };
+
+PicturesStrap.propTypes = {
+  pictures: PropTypes.arrayOf(
+    PropTypes.shape({ id: PropTypes.string, url: PropTypes.string })
+  ),
+};
+
+PicturesStrap.defaultProps = { pictures: [] };
 
 export default PicturesStrap;

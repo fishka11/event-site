@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
 
 import Container from 'react-bootstrap/Container';
@@ -146,6 +147,20 @@ const Hero = ({ currentEvent }) => {
       </Jumbotron>
     </section>
   );
+};
+
+Hero.propTypes = {
+  currentEvent: PropTypes.shape({
+    eventFullName: PropTypes.string,
+    eventStartDate: PropTypes.string,
+    eventEndDate: PropTypes.string,
+    cancelled: PropTypes.bool,
+    cite: PropTypes.string,
+    citeAuthor: PropTypes.string,
+    eventLocation: PropTypes.shape({
+      city: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 export default Hero;

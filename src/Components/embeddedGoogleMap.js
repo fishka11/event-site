@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 const GoogleMap = ({ location, title }) => {
   return (
@@ -18,16 +18,16 @@ const GoogleMap = ({ location, title }) => {
   );
 };
 
-// GoogleMap.propTypes = {
-//   location: PropTypes.shape({
-//     googleMapsCode: PropTypes.string,
-//   }),
-//   title: PropTypes.string,
-// };
+GoogleMap.propTypes = {
+  location: PropTypes.shape({
+    googleMapsCode: PropTypes.string,
+  }),
+  title: PropTypes.string,
+};
 
-// GoogleMap.defaultProps = {
-//   location: {},
-//   title: '',
-// };
+GoogleMap.defaultProps = {
+  location: {},
+  title: '',
+};
 
 export default GoogleMap;

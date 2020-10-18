@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
-
+import PropTypes from 'prop-types';
 import counterStyles from './counter.module.scss';
 
 class Counter extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      eventStartDate: props.eventStartDate,
       days: 0,
       hours: 0,
       mins: 0,
       secs: 0,
-      cancelled: props.cancelled,
     };
 
     this.tick = this.tick.bind(this);
@@ -26,7 +24,7 @@ class Counter extends Component {
   }
 
   tick() {
-    const { eventStartDate } = this.state;
+    const { eventStartDate } = this.props;
     const diffrence = Math.abs(
       Math.floor((eventStartDate - Date.now()) / 1000)
     );
@@ -46,7 +44,8 @@ class Counter extends Component {
   }
 
   render() {
-    const { eventStartDate, days, hours, mins, secs, cancelled } = this.state;
+    const { days, hours, mins, secs } = this.state;
+    const { eventStartDate, cancelled } = this.props;
     return (
       <div>
         {eventStartDate >= Date.now() && !cancelled ? (
@@ -102,5 +101,11 @@ class Counter extends Component {
     );
   }
 }
+
+Counter.propTypes = {
+  eventStartDate: PropTypes.instanceOf(Date).isRequired,
+  cancelled: PropTypes.bool,
+};
+Counter.defaultProps = { cancelled: false };
 
 export default Counter;

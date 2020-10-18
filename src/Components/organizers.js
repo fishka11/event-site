@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -58,4 +58,29 @@ const Organizers = ({ organizers }) => {
     </section>
   );
 };
+
+Organizers.propTypes = {
+  organizers: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      shortName: PropTypes.string,
+      organizerType: PropTypes.string,
+      address: PropTypes.string,
+      postalCode: PropTypes.string,
+      city: PropTypes.string,
+      webSite: PropTypes.string,
+      eMail: PropTypes.arrayOf(PropTypes.string),
+      phone: PropTypes.arrayOf(PropTypes.string),
+      fax: PropTypes.arrayOf(PropTypes.string),
+      nip: PropTypes.string,
+      regon: PropTypes.string,
+      bankAccount: PropTypes.string,
+      bankName: PropTypes.string,
+    })
+  ),
+};
+
+Organizers.defaultProps = { organizers: [] };
+
 export default Organizers;
