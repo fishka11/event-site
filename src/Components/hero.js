@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
+import gsap from 'gsap';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -15,10 +16,24 @@ import { POLISH_MONTHS } from '../const';
 import heroStyles from './hero.module.scss';
 
 const Hero = ({ currentEvent }) => {
+  const featuredRef = useRef(null);
+
   const multilineTitle = currentEvent.eventFullName.split('\n');
   const eventStartDate = new Date(currentEvent.eventStartDate);
   const eventEndDate = new Date(currentEvent.eventEndDate);
   const { cancelled } = currentEvent;
+
+  useEffect(() => {
+    const element = featuredRef.current;
+    gsap.set([element], { autoAlpha: 0 });
+    const tl = gsap.timeline({ dafaults: { easae: 'power3.inOut' } });
+    tl.fromTo(
+      element,
+      { y: '+=200' },
+      { duration: 1, y: '-=200', autoAlpha: 1, delay: 0.5 }
+    );
+  });
+
   return (
     <section>
       <Jumbotron fluid className={heroStyles.jumbo}>
@@ -79,7 +94,7 @@ const Hero = ({ currentEvent }) => {
               <Counter eventStartDate={eventStartDate} cancelled={cancelled} />
               <Independence />
             </Col>
-            <Col className={heroStyles.features} lg={5}>
+            <Col ref={featuredRef} className={heroStyles.features} lg={5}>
               <div className={heroStyles.featuresContainer}>
                 <p className={heroStyles.featureHeader}>Debata:</p>
                 <h4>

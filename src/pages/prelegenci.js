@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'gatsby';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
+import confereeStyles from './conferee.module.scss';
+
+import Conferee from '../components/conferee';
 import SiteTemplate from '../templates/siteTemplate';
 import { ROLE_SPEAKER } from '../const';
 
-import prelegenciStyles from './prelegenci.module.scss';
+gsap.registerPlugin(ScrollTrigger);
 
 const Speakers = ({ data, pageContext }) => {
   const currentEvent = data.graphcms.events[0];
@@ -32,27 +37,80 @@ const Speakers = ({ data, pageContext }) => {
   const sortedEventSpeakers = filteredSpeakers.sort((a, b) =>
     collator.compare(a.lastName, b.lastName)
   );
+
+  const confereeRefs = useRef([]);
+  confereeRefs.current = [];
+  const addToRefs = (ref) => {
+    if (ref && !confereeRefs.current.includes(ref)) {
+      confereeRefs.current.push(ref);
+    }
+  };
+
+  const [conferees] = useState(sortedEventSpeakers);
+
+  useEffect(() => {
+    // if (typeof window !== `undefined`) {
+    //   gsap.registerPlugin(ScrollTrigger);
+    //   gsap.core.globals('ScrollTrigger', ScrollTrigger);
+    // }
+    confereeRefs.current.forEach((conferee, index) => {
+      gsap.fromTo(
+        conferee,
+        { autoAlpha: 0 },
+        {
+          duration: 1,
+          autoAlpha: 1,
+          ease: 'power3.inOut',
+          scrollTrigger: {
+            id: `conferee-${index + 1}`,
+            trigger: conferee,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+      // gsap.set(conferee, { autoAlpha: 0 });
+      // const tl = gsap.timeline({ dafaults: { ease: 'power3.inOut' } });
+      // tl.fromTo(
+      //   conferee,
+      //   { y: '+=30' },
+      //   {
+      //     y: 0,
+      //     autoAlpha: 1,
+      //     duration: 1,
+      //     scrollTrigger: {
+      //       id: `conferee-${index + 1}`,
+      //       trigger: conferee,
+      //       start: 'top 80%',
+      //       toggleActions: 'play none none reverse',
+      //     },
+      //   }
+      // );
+    });
+  }, []);
+
   return (
     <SiteTemplate slug="prelegenci" currentEventName={currentEvent.eventName}>
       <Container>
         <h1>Prelegenci</h1>
         <section>
           <Row>
-            {sortedEventSpeakers.map((speaker) => (
-              <Col key={speaker.id} md={4}>
-                <div className={prelegenciStyles.speaker}>
+            {conferees.map((speaker) => (
+              // <Conferee key={speaker.id} speaker={speaker} ref={addToRefs} />
+              <Col key={speaker.id} md={4} ref={addToRefs}>
+                <div className={confereeStyles.speaker}>
                   <img
-                    className={prelegenciStyles.photo}
+                    className={confereeStyles.photo}
                     fluid="true"
                     src={speaker.photo.url}
                     alt={`${speaker.title ? speaker.title : ''} ${
                       speaker.firstName
                     } ${speaker.lastName}`}
                   />
-                  <h2 className={prelegenciStyles.name}>{`${
+                  <h2 className={confereeStyles.name}>{`${
                     speaker.title ? speaker.title : ''
                   } ${speaker.firstName} ${speaker.lastName}`}</h2>
-                  <p className={prelegenciStyles.description}>
+                  <p className={confereeStyles.description}>
                     {speaker.description}
                   </p>
                 </div>
@@ -95,10 +153,10 @@ Speakers.propTypes = {
           description: PropTypes.string,
           photo: PropTypes.shape({ url: PropTypes.string }),
           events: PropTypes.arrayOf(PropTypes.string),
-          roleKBB: PropTypes.PropTypes.string,
-          roleKBN: PropTypes.PropTypes.string,
-          roleKOIN: PropTypes.PropTypes.string,
-          roleZPO: PropTypes.PropTypes.string,
+          roleKBB: PropTypes.string,
+          roleKBN: PropTypes.string,
+          roleKOIN: PropTypes.string,
+          roleZPO: PropTypes.string,
         })
       ),
     }),
